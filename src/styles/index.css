@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer fonts {
+	@font-face {
+		font-family: 'Konstant Grotesk';
+		font-style: normal;
+		font-weight: 400;
+		font-display: swap;
+		src: url(/fonts/NeueKonstantGrotesk-Book.otf) format('opentype');
+	}
+
+	@font-face {
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 900;
+		font-display: swap;
+		src: url(/fonts/Inter-Black.ttf) format('truetype');
+	}
+
+	@font-face {
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 500;
+		font-display: swap;
+		src: url(/fonts/Inter-Medium.ttf) format('truetype');
+	}
+}
+
+@layer base {
+	:root {
+		--color-orange: #d03b00;
+		--color-yellow-100: #fef8ec;
+		--color-yellow-200: #ffefd0;
+		--color-orange-border: #f7cab8;
+
+		--color-white: #ffffff;
+		--color-dark-800: #262626;
+		--color-dark-700: #3b3b3b;
+		--color-dark-border: #606060;
+
+		--color-primary: var(--color-orange);
+		--color-bg: var(--color-yellow-100);
+		--color-bg-alt: var(--color-yellow-200);
+		--color-border: var(--color-orange-border);
+
+		--color-font: var(--color-orange);
+
+		--transition-time: 0.5s ease-out;
+
+		--font-title: 'Konstant Grotesk';
+		--font-text: 'Inter';
+	}
+
+	:root[data-theme-dark] {
+		--color-primary: var(--color-white);
+		--color-bg: var(--color-dark-800);
+		--color-bg-alt: var(--color-dark-700);
+		--color-border: var(--color-dark-border);
+		--color-font: var(--color-white);
+	}
+
+	body {
+		color: var(--color-font);
+		background-color: var(--color-bg);
+		transition:
+			color var(--transition-time),
+			background-color var(--transition-time);
+
+		overflow-x: hidden;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		min-height: 100vh;
+
+		font-family:
+			var(--font-text, 'Inter'),
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			'Fira Sans',
+			'Droid Sans',
+			'Helvetica Neue',
+			sans-serif;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-title, 'Konstant Grotesk');
+	}
+}
