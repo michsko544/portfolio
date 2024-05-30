@@ -96,4 +96,9 @@
 	h6 {
 		font-family: var(--font-title, 'Konstant Grotesk');
 	}
+
+	p {
+		font-weight: 500;
+		font-size: 16px;
+	}
 }
