@@ -1,19 +1,47 @@
 ---
-import Chip from "src/components/Chip.astro";
 import Logo from "../components/Logo.astro";
+import CirclesUnion from "../components/CirclesUnion.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Link from "../components/Link.astro";
 
 const chipText = "WEB DEVELOPER PORTFOLIO"
 ---
 
-<section class="m-auto w-auto w-max-xl px-3 min-h-screen flex flex-col place-content-center gap-6">
-  <div class="h-[23px] md:hidden">
-    <Logo />
-  </div>
-  <div class="flex flex-col gap-2">
-    <Chip text={chipText} />
-    <div class="flex flex-col gap-3">
-      <h1 class="text-4xl">Michal Skorus</h1>
-      <p>Hi, I am Michał and I am passionate about programming eye-pleasing web apps. I develop web applications for both <strong>small businesses</strong> and large <strong>e-commerce platforms</strong>. I tailor the technology to the project’s requirements, ensuring optimal <strong>performance</strong>, <strong>SEO</strong>, and <strong>responsiveness</strong>.</p>
+<section class="m-auto w-auto w-max-xl">
+  <div class="relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[133px] h-[133px] translate-x-1/2 translate-y-[-50%] lg:w-[600px] lg:h-[600px] lg:top-[unset] lg:bottom-0 lg:translate-y-1/2">
+      <CirclesUnion />
+    </div>
+    <div class="px-3 min-h-screen flex place-items-center">
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-6">
+          <div class="h-[23px] lg:hidden">
+            <Logo />
+          </div>
+          <PageHeader title="Michal Skorus" chipText={chipText}>
+            <p slot="description">Hi, I am Michał and I am passionate about programming eye-pleasing web apps. I develop web applications for both <strong>small businesses</strong> and large <strong>e-commerce platforms</strong>. I tailor the technology to the project’s requirements, ensuring optimal <strong>performance</strong>, <strong>SEO</strong>, and <strong>responsiveness</strong>.</p>
+          </PageHeader>
+        </div>
+        <div>
+          <ul class="flex flex-wrap gap-1 flex-col lg:flex-row">
+            <li>
+              <Link href="#">Favorite tech stack</Link>
+            </li>
+            <li>
+              <Link href="#">BLOG</Link>
+            </li>
+            <li>
+              <Link href="#">MY PROJECTS</Link>
+            </li>
+            <li>
+              <Link href="#">GET IN TOUCH</Link>
+            </li>
+          </ul>
+        </div>
+        <p>
+          Currently, I am working for <a href="https://nubisoft.io/" target="_blank" rel="noopenner">NubiSoft</a>
+        </p>
+      </div>
     </div>
   </div>
 </section>

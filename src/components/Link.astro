@@ -1,0 +1,14 @@
+---
+import IconLink from "./IconLink.astro"
+
+const {href="#"} = Astro.props;
+---
+
+<a href={href} class="flex items-center gap-3">
+  <span class="flex flex-shrink-0 justify-center items-center w-8 h-8">
+    <IconLink />
+  </span>
+  <span class="font-sans uppercase text-sm leading-[22px] pt-3 pb-1.5 px-0">
+    <slot/>
+  </span>
+</a>
