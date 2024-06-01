@@ -1,19 +1,10 @@
 ---
+import Header from "../components/Header.tsx"
 import BaseLayout from "../layouts/BaseLayout.astro"
 ---
 
 <BaseLayout>
-  <aside>
-    <header>
-      <!-- <nav>
-        <ul>
-          <li><a href="#home">HOME</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">SKILLS</a></li>
-        </ul>
-      </nav> -->
-    </header>
-  </aside>
+  <Header client:only />
   <main>
     <slot/>
   </main>

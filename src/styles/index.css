@@ -111,3 +111,7 @@
 		}
 	}
 }
+
+.custom-transition {
+	transition: all var(--transition-time);
+}

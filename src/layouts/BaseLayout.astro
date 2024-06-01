@@ -10,8 +10,11 @@ import "../styles/index.css";
 	  <meta name="generator" content={Astro.generator} />
 		<title>Michał Skorus | Portfolio</title>
     <script is:inline>
+      var isDarkMode = function() {
+        return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
       var initTheme = function(){
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (isDarkMode()) {
           document.documentElement.setAttribute('data-theme-dark', "")
         } else {
           document.documentElement.removeAttribute('data-theme-dark')
