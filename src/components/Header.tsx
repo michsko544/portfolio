@@ -120,7 +120,7 @@ export default function Header() {
 				<aside
 					className={cn(
 						'flex flex-col place-content-center',
-						'fixed w-1/2 h-full px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
+						'fixed w-1/2 h-[100dvh] px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
 						isMenuOpened && 'translate-x-0',
 						'lg:block lg:px-0 lg:translate-x-0 lg:h-screen lg:w-[30%]',
 					)}
