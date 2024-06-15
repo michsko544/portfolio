@@ -1,18 +1,26 @@
 ---
 import Logo from "../components/Logo.astro";
 import CirclesUnion from "../components/CirclesUnion.astro";
+import ArrowDownIcon from "../components/IconArrowDown.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Link from "../components/Link.astro";
+import { cn } from "src/utils";
+import { Image } from "astro:assets";
+import avatar from '../assets/Avatar.png';
 
 const chipText = "WEB DEVELOPER PORTFOLIO"
 ---
 
-<section class="m-auto w-auto w-max-xl">
-  <div class="relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-[133px] h-[133px] translate-x-1/2 translate-y-[-50%] lg:w-[600px] lg:h-[600px] lg:top-[unset] lg:bottom-0 lg:translate-y-1/2">
+<section class="m-auto w-auto w-max-xl overflow-hidden relative">
+  <div>
+    <div class={
+    cn(
+      "absolute top-0 right-0 w-[133px] h-[133px] translate-x-1/2 translate-y-[-50%] bg-circles-union bg-no-repeat content-['']",
+      "lg:w-[600px] lg:h-[600px]")
+    }>
       <CirclesUnion />
     </div>
-    <div class="px-3 min-h-screen flex place-items-center">
+    <div class={cn("px-3 min-h-screen flex place-items-center", "lg:px-12 lg:pr-0 lg:max-w-[40vw]")}>
       <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-6">
           <div class="h-[23px] lg:hidden">
@@ -22,8 +30,11 @@ const chipText = "WEB DEVELOPER PORTFOLIO"
             <p slot="description">Hi, I am Michał and I am passionate about programming eye-pleasing web apps. I develop web applications for both <strong>small businesses</strong> and large <strong>e-commerce platforms</strong>. I tailor the technology to the project’s requirements, ensuring optimal <strong>performance</strong>, <strong>SEO</strong>, and <strong>responsiveness</strong>.</p>
           </PageHeader>
         </div>
-        <div>
-          <ul class="flex flex-wrap gap-1 flex-col lg:flex-row">
+        <div class={cn(
+          "flex items-center justify-between",
+          "lg:flex-row-reverse lg:gap-8 lg:w-fit"
+          )}>
+          <ul class="grid grid-cols-1 gap-y-1 gap-x-5 2xl:grid-cols-2">
             <li>
               <Link href="#">Favorite tech stack</Link>
             </li>
@@ -37,11 +48,29 @@ const chipText = "WEB DEVELOPER PORTFOLIO"
               <Link href="#">GET IN TOUCH</Link>
             </li>
           </ul>
+          <div class={cn("w-[127px] h-[127px] flex-shrink-0 custom-transition", "2xl:w-[84px] 2xl:h-[84px]", "dark:saturate-0")}>
+            <Image
+              src={avatar}
+              alt="Michał Skorus"
+              format="avif"
+              widths={[127, 84]}
+              width="127"
+              height="127"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
         </div>
         <p>
           Currently, I am working for <a href="https://nubisoft.io/" target="_blank" rel="noopenner">NubiSoft</a>
         </p>
       </div>
+      <a href="#about" class={cn("absolute bottom-4 left-1/2 transform -translate-x-1/2", "hidden gap-3 items-center", "tall:flex", "lg:left-[unset] lg:translate-x-0 lg:bottom-24")}>
+        <span class="font-sans pt-3 pb-1.5">SEE MORE</span>
+        <span class="block w-8 h-8 flex-shrink-0">
+          <ArrowDownIcon />
+        </span>
+      </a>
     </div>
   </div>
 </section>

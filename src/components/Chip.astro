@@ -7,6 +7,6 @@ type Props = {
 const { text = '', variant = 'normal' } = Astro.props;
 ---
 
-<span class:list={["block uppercase font-sans text-[10px] leading-[1.2] pt-1 px-1.5 bg-secondary-alt w-fit rounded-md", variant==='outlined' && "outline outline-primary outline-offset-[-1px]"]}>
+<span class:list={["block uppercase font-sans text-[10px] leading-[1.2] pt-1 px-1.5 bg-secondary-alt w-fit rounded-md custom-transition", variant==='outlined' && "outline outline-primary outline-offset-[-1px]"]}>
   {text}
 </span>

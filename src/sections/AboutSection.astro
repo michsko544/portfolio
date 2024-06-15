@@ -1,0 +1,12 @@
+---
+import PageHeader from "src/components/PageHeader.astro"
+
+const chipText = "MORE ABOUT ME"
+const pageTitle = "What do I specialize in?"
+---
+
+<section id="about" class="contentSection">
+  <PageHeader title={pageTitle} chipText={chipText}>
+    <p slot="description">My favorite technology is React supported by TypeScript, but I'm not afraid to work with any technology.</p>
+  </PageHeader>
+</section>

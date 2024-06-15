@@ -115,3 +115,7 @@
 .custom-transition {
 	transition: all var(--transition-time);
 }
+
+.contentSection {
+	@apply px-3 flex place-items-center py-20 lg:px-12 lg:pr-0 lg:max-w-[40vw] lg:py-28;
+}

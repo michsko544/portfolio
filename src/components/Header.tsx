@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { useState } from 'react';
+import { cn } from 'src/utils';
 
 function Logo() {
 	return (
@@ -112,103 +112,113 @@ export default function Header() {
 	return (
 		<header>
 			<div className="">
-				<div className="w-full p-3 absolute top-0 left-0 lg:hidden z-20">
+				<div className="w-screen p-3 fixed top-0 left-0 lg:hidden z-20">
 					<button className="w-8 h-8 bg-none border-none" onClick={() => setIsMenuOpened(o => !o)}>
 						<IconBurger />
 					</button>
 				</div>
 				<aside
-					className={clsx([
-						'absolute w-1/2 h-full flex flex-col place-content-center gap-12 px-3 bg-secondary border-r border-primary z-30 -translate-x-full custom-transition',
+					className={cn(
+						'flex flex-col place-content-center',
+						'fixed w-1/2 h-full px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
 						isMenuOpened && 'translate-x-0',
-					])}
+						'lg:block lg:px-0 lg:translate-x-0 lg:h-screen lg:w-[30%]',
+					)}
 				>
-					<button
-						className="w-8 h-8 bg-none border-none absolute top-3 left-3"
-						onClick={() => setIsMenuOpened(o => !o)}
-					>
-						<IconBack />
-					</button>
-					<div className="h-[23px]">
-						<Logo />
-					</div>
-					<nav>
-						<ul className="flex flex-col gap-3">
+					<div className={cn('flex flex-col gap-12', 'lg:w-auto lg:max-w-[120px] lg:ml-auto lg:mr-8')}>
+						<button
+							className={cn('w-8 h-8 bg-none border-none absolute top-3 left-3', 'lg:hidden')}
+							onClick={() => setIsMenuOpened(o => !o)}
+						>
+							<IconBack />
+						</button>
+						<div className="h-[23px] lg:h-[44px]">
+							<Logo />
+						</div>
+						<nav>
+							<ul className="flex flex-col gap-3">
+								<li>
+									<a
+										href="#home"
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										HOME
+									</a>
+								</li>
+								<li>
+									<a
+										href="#home"
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										ABOUT
+									</a>
+								</li>
+								<li>
+									<a
+										href="#home"
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										SKILLS
+									</a>
+								</li>
+								<li>
+									<a
+										href="#home"
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										PORTFOLIO
+									</a>
+								</li>
+								<li>
+									<a
+										href="#home"
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										CONTACT
+									</a>
+								</li>
+							</ul>
+						</nav>
+						<ul className="flex flex-wrap gap-2">
 							<li>
 								<a
-									href="#home"
-									className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									href="https://linkedin.com/in/micha%C5%82-skorus"
+									target="_blank"
+									rel="noopener"
+									className="block w-8 h-8"
 								>
-									HOME
+									<IconLinkedin />
+								</a>
+							</li>
+							<li>
+								<a href="https://github.com/michsko544" target="_blank" rel="noopener" className="block w-8 h-8">
+									<IconGithub />
 								</a>
 							</li>
 							<li>
 								<a
-									href="#home"
-									className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									href="https://stackoverflow.com/users/15263316/micha%c5%82-skorus"
+									target="_blank"
+									rel="noopener"
+									className="block w-8 h-8"
 								>
-									ABOUT
-								</a>
-							</li>
-							<li>
-								<a
-									href="#home"
-									className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-								>
-									SKILLS
-								</a>
-							</li>
-							<li>
-								<a
-									href="#home"
-									className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-								>
-									PORTFOLIO
-								</a>
-							</li>
-							<li>
-								<a
-									href="#home"
-									className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-								>
-									CONTACT
+									<IconStackoverflow />
 								</a>
 							</li>
 						</ul>
-					</nav>
-					<ul className="flex flex-wrap gap-2">
-						<li>
-							<a
-								href="https://linkedin.com/in/micha%C5%82-skorus"
-								target="_blank"
-								rel="noopener"
-								className="block w-8 h-8"
-							>
-								<IconLinkedin />
-							</a>
-						</li>
-						<li>
-							<a href="https://github.com/michsko544" target="_blank" rel="noopener" className="block w-8 h-8">
-								<IconGithub />
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://stackoverflow.com/users/15263316/micha%c5%82-skorus"
-								target="_blank"
-								rel="noopener"
-								className="block w-8 h-8"
-							>
-								<IconStackoverflow />
-							</a>
-						</li>
-					</ul>
-					<button className="absolute left-3 bottom-3 flex items-center gap-[2px]" onClick={handleThemeChange}>
-						<div className="w-4 h-4">{isDarkMode ? <IconSun /> : <IconMoon />}</div>
-						<span className="block uppercase font-sans pt-1 text-[12px] leading-[14px]">
-							{isDarkMode ? 'Light' : 'Dark'}
-						</span>
-					</button>
+						<button
+							className={cn(
+								'absolute left-3 bottom-3 flex items-center gap-[2px]',
+								'lg:left-[unset] lg:bottom-8 lg:w-auto lg:max-w-[120px] lg:ml-auto',
+							)}
+							onClick={handleThemeChange}
+						>
+							<div className="w-4 h-4">{isDarkMode ? <IconSun /> : <IconMoon />}</div>
+							<span className="block uppercase font-sans pt-1 text-[12px] leading-[14px]">
+								{isDarkMode ? 'Light' : 'Dark'}
+							</span>
+						</button>
+					</div>
 				</aside>
 			</div>
 		</header>
