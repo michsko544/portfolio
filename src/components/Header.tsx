@@ -122,7 +122,7 @@ export default function Header() {
 						'flex flex-col place-content-center',
 						'fixed w-1/2 h-[100dvh] px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
 						isMenuOpened && 'translate-x-0',
-						'lg:block lg:px-0 lg:translate-x-0 lg:h-screen lg:w-[30%]',
+						'lg:px-0 lg:translate-x-0 lg:h-screen lg:w-[30%]',
 					)}
 				>
 					<div className={cn('flex flex-col gap-12', 'lg:w-auto lg:max-w-[120px] lg:ml-auto lg:mr-8')}>
