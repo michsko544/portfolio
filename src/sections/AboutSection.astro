@@ -1,12 +1,39 @@
 ---
 import PageHeader from "src/components/PageHeader.astro"
+import Table from "src/components/Table.astro"
 
-const chipText = "MORE ABOUT ME"
-const pageTitle = "What do I specialize in?"
+const chipText = "MORE ABOUT ME";
+const pageTitle = "What do I specialize in?";
+const tableTitle = "FAVOURITE STACK & TOOLS";
+const tableItems = [{
+  label: "Language",
+  value: "TypeScript"
+},{
+  label: "Framework",
+  value: "React",
+},{
+  label: "Styling",
+  value: "SCSS",
+},{
+  label: "Runtime Environment",
+  value: "Node.js",
+},{
+  label: "Building Tool",
+  value: "Vite.js",
+},{
+  label: "Package Manager",
+  value: "PNPM",
+}, {
+  label: "Version Manager",
+  value: "Gitlab"
+}]
 ---
 
 <section id="about" class="contentSection">
-  <PageHeader title={pageTitle} chipText={chipText}>
-    <p slot="description">My favorite technology is React supported by TypeScript, but I'm not afraid to work with any technology.</p>
-  </PageHeader>
+  <div class="flex flex-col gap-12">
+    <PageHeader title={pageTitle} chipText={chipText}>
+      <p slot="description">My favorite technology is React supported by TypeScript, but I'm not afraid to work with any technology.</p>
+    </PageHeader>
+    <Table title={tableTitle} items={tableItems} />
+  </div>
 </section>
