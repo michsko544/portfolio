@@ -61,6 +61,10 @@
 		--color-font: var(--color-white);
 	}
 
+	html {
+		scroll-behavior: smooth;
+	}
+
 	body {
 		color: var(--color-font);
 		background-color: var(--color-bg);

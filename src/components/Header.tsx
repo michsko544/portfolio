@@ -147,7 +147,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#home"
+										href="#about"
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										ABOUT
@@ -155,7 +155,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#home"
+										href="#technologies"
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										SKILLS
@@ -163,7 +163,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#home"
+										href="#projects"
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										PORTFOLIO

@@ -1,0 +1,15 @@
+---
+import PageHeader from "src/components/PageHeader.astro"
+
+const chipText = "PORTFOLIO";
+const pageTitle = "Realized projects";
+
+---
+
+<section id="projects" class="contentSection">
+  <div class="flex flex-col gap-12">
+    <PageHeader title={pageTitle} chipText={chipText}>
+      <p slot="description">A collection of projects I have completed, showcasing the diverse and custom web applications I have developed for both clients and personal learning.</p>
+    </PageHeader>
+  </div>
+</section>
