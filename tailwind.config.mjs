@@ -16,6 +16,7 @@ export default {
 				'secondary-alt': 'var(--color-bg-alt)',
 				border: 'var(--color-border)',
 				placeholder: 'rgb(var(--color-primary) / 0.32)',
+				shadow: 'var(--color-shadow)',
 			},
 			screens: {
 				tall: { raw: '(min-height: 800px)' },

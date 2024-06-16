@@ -34,16 +34,19 @@
 		--color-yellow-100: #fef8ec;
 		--color-yellow-200: #ffefd0;
 		--color-orange-border: #f7cab8;
+		--color-yellow-shadow: rgba(254, 248, 236, 0.5);
 
 		--color-white: #ffffff;
-		--color-dark-800: #262626;
+		--color-dark-800: #1b1a1a;
 		--color-dark-700: #3b3b3b;
 		--color-dark-border: #606060;
+		--color-dark-shadow: rgba(38, 38, 38, 0.5);
 
 		--color-primary: var(--color-orange);
 		--color-bg: var(--color-yellow-100);
 		--color-bg-alt: var(--color-yellow-200);
 		--color-border: var(--color-orange-border);
+		--color-shadow: var(--color-yellow-shadow);
 
 		--color-font: var(--color-orange);
 
@@ -59,6 +62,7 @@
 		--color-bg-alt: var(--color-dark-700);
 		--color-border: var(--color-dark-border);
 		--color-font: var(--color-white);
+		--color-shadow: var(--color-dark-shadow);
 	}
 
 	html {
@@ -92,6 +96,20 @@
 			sans-serif;
 	}
 
+	body.menu-opened {
+		overflow: hidden;
+	}
+
+	body::after {
+		@apply fixed inset-0 w-full h-[100dvh] content-[''] opacity-0 invisible z-20 bg-shadow lg:hidden;
+		transition:
+			1s opacity 0.1s ease,
+			1s backdrop-filter 0.1s ease;
+	}
+	body.menu-opened::after {
+		@apply opacity-100 visible backdrop-blur-[4px];
+	}
+
 	h1,
 	h2,
 	h3,
@@ -121,5 +139,5 @@
 }
 
 .contentSection {
-	@apply px-3 flex place-items-center py-20 lg:px-12 lg:pr-0 lg:max-w-[40vw] lg:py-28;
+	@apply px-3 py-20 lg:px-12 lg:pr-0 lg:max-w-[40vw] lg:py-28;
 }

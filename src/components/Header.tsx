@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cn } from 'src/utils';
+import { useClickAway } from '@uidotdev/usehooks';
 
 function Logo() {
 	return (
@@ -98,6 +99,10 @@ export default function Header() {
 	const [isMenuOpened, setIsMenuOpened] = useState(false);
 	const [isDarkMode, setIsDarkMode] = useState(window.isDarkMode());
 
+	const ref = useClickAway<HTMLElement>(() => {
+		closeMenu();
+	});
+
 	const handleThemeChange = () => {
 		if (isDarkMode) {
 			localStorage?.setItem('theme', 'light');
@@ -109,15 +114,25 @@ export default function Header() {
 		window.initTheme();
 	};
 
+	const closeMenu = () => {
+		document.body.classList.remove('menu-opened');
+		setIsMenuOpened(false);
+	};
+	const openMenu = () => {
+		document.body.classList.add('menu-opened');
+		setIsMenuOpened(true);
+	};
+
 	return (
 		<header>
 			<div className="">
 				<div className="w-screen p-3 fixed top-0 left-0 lg:hidden z-20">
-					<button className="w-8 h-8 bg-none border-none" onClick={() => setIsMenuOpened(o => !o)}>
+					<button className="w-8 h-8 bg-none border-none" onClick={openMenu}>
 						<IconBurger />
 					</button>
 				</div>
 				<aside
+					ref={ref}
 					className={cn(
 						'flex flex-col place-content-center',
 						'fixed w-1/2 h-[100dvh] px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
@@ -128,7 +143,7 @@ export default function Header() {
 					<div className={cn('flex flex-col gap-12', 'lg:w-auto lg:max-w-[120px] lg:ml-auto lg:mr-8')}>
 						<button
 							className={cn('w-8 h-8 bg-none border-none absolute top-3 left-3', 'lg:hidden')}
-							onClick={() => setIsMenuOpened(o => !o)}
+							onClick={closeMenu}
 						>
 							<IconBack />
 						</button>
