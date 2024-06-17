@@ -20,7 +20,7 @@ function Logo() {
 function IconBurger() {
 	return (
 		<svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M4 13H28M4 19H28" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+			<path d="M4 13H28M4 19H28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
 		</svg>
 	);
 }

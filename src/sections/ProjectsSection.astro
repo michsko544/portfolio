@@ -1,8 +1,53 @@
 ---
 import PageHeader from "src/components/PageHeader.astro"
+import ProjectCard from "src/components/ProjectCard.astro";
+import cakeShop from "src/assets/cake-shop.png";
+import freelancerPlatform from "src/assets/freelancer-platform.png";
+import wavemedWebsite from "src/assets/wavemed-website.png";
+import teamfood from "src/assets/teamfood.jpg";
+import CirclesAim from "src/components/CirclesAim.astro";
+
 
 const chipText = "PORTFOLIO";
 const pageTitle = "Realized projects";
+
+const projects = [
+  {
+    index: "01",
+    title: "WaveMed Agency",
+    chips: ["NEXT.JS", "REACT", 'SCSS', "GRAPHQL", "HYGRAPH", "GRAPHQL-CODEGEN"],
+    year: "2024",
+    role: "Fullstack",
+    image: wavemedWebsite,
+    url: "https://www.wavemed.eu/en"
+  },
+  {
+    index: "02",
+    title: "Cake E-commerce Website",
+    chips: ["NUXT.JS", "VUE", 'SCSS'],
+    year: "2021",
+    role: "Fullstack",
+    image: cakeShop,
+    url: "https://github.com/michsko544/smooth-shop"
+  },
+  {
+    index: "03",
+    title: "Order-food App",
+    chips: ["REACT", "CREATE REACT APP", 'MUI', 'STYLED-COMPONENTS', "FORMIK", "FIREBASE", "PWA"],
+    year: "2020",
+    role: "Frontend",
+    image: teamfood
+  },
+  {
+    index: "04",
+    title: "Freelancer Platform",
+    chips: ["REACT", "CREATE REACT APP", 'STYLED-COMPONENTS', "FORMIK"],
+    year: "2020",
+    role: "Fullstack",
+    image: freelancerPlatform,
+    url: "https://github.com/michsko544/notiwo-frontend"
+  },
+]
 
 ---
 
@@ -11,5 +56,21 @@ const pageTitle = "Realized projects";
     <PageHeader title={pageTitle} chipText={chipText}>
       <p slot="description">A collection of projects I have completed, showcasing the diverse and custom web applications I have developed for both clients and personal learning.</p>
     </PageHeader>
+    <div class="flex flex-col gap-8 lg:gap-32">
+      <div class="hidden lg:block absolute left-[30%] w-[785px] h-[785px] z-[-1] translate-x-[-50%] translate-y-[1258px]">
+        <CirclesAim />
+      </div>
+      {projects.map(({
+        index,
+        title,
+        chips,
+        year,
+        role,
+        image,
+        url,
+      })=>(
+        <ProjectCard index={index} projectTitle={title} chips={chips} image={image} year={year} role={role} url={url} />
+      ))}
+    </div>
   </div>
 </section>

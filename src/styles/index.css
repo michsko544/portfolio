@@ -34,13 +34,13 @@
 		--color-yellow-100: #fef8ec;
 		--color-yellow-200: #ffefd0;
 		--color-orange-border: #f7cab8;
-		--color-yellow-shadow: rgba(254, 248, 236, 0.5);
+		--color-yellow-shadow: rgba(254, 248, 236, 0.55);
 
 		--color-white: #ffffff;
 		--color-dark-800: #1b1a1a;
 		--color-dark-700: #3b3b3b;
 		--color-dark-border: #606060;
-		--color-dark-shadow: rgba(38, 38, 38, 0.5);
+		--color-dark-shadow: rgba(38, 38, 38, 0.55);
 
 		--color-primary: var(--color-orange);
 		--color-bg: var(--color-yellow-100);
@@ -107,7 +107,7 @@
 			1s backdrop-filter 0.1s ease;
 	}
 	body.menu-opened::after {
-		@apply opacity-100 visible backdrop-blur-[4px];
+		@apply opacity-100 visible backdrop-blur-[6px];
 	}
 
 	h1,
@@ -139,5 +139,5 @@
 }
 
 .contentSection {
-	@apply px-3 py-20 lg:px-12 lg:pr-0 lg:max-w-[40vw] lg:py-28;
+	@apply px-3 py-20 lg:px-12 lg:pr-0 lg:max-w-[46vw] lg:py-28;
 }
