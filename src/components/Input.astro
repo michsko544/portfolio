@@ -1,0 +1,29 @@
+---
+import { cn } from 'src/utils';
+
+
+type Props =  {
+  label?: string;
+  type?: "text" | "password" | "email";
+  id: string;
+  name?: string;
+  required?: boolean;
+  placeholder?: string;
+}
+
+const { label = "", type="text", id, name, required=false, placeholder="" } = Astro.props;
+---
+
+<label for={id} class="flex flex-col w-full max-w-[360px]">
+  <span class="font-sans text-[10px] leading-[12px] uppercase">{label}{required ? "*" : ""}</span>
+  <input
+    type={type}
+    id={id}
+    name={name ? name : id}
+    required={required}
+    placeholder={placeholder}
+    class={cn(
+      "bg-transparent border-b border-border focus:border-primary outline-none py-1",
+      "text-[16px] leading-[19px] text-primary placeholder:text-border"
+    )}/>
+</label>

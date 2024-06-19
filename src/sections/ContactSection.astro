@@ -1,12 +1,69 @@
 ---
+import IconSend from "src/components/IconSend.astro";
+import Input from "src/components/Input.astro";
 import PageHeader from "src/components/PageHeader.astro";
+import { Resend } from 'resend';
+
+const resend = new Resend(import.meta.env.RESEND_TOKEN);
 
 const chipText = "LET’S BE IN TOUCH"
 const pageTitle = "Contact"
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const fullname = data.get("fullname");
+    const email = data.get("email");
+    const topic = data.get("topic");
+    const message = data.get("message");
+
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'michsko@poczta.onet.pl',
+      subject: `Contact form - ${fullname}`,
+      html: `<h3>${topic}</h3><p>${message}</p><a href="mailto:${email}">${email}</a>`,
+      reply_to: `${email}`,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
 <section id="contact" class="contentSection">
-  <PageHeader title={pageTitle} chipText={chipText}>
-    <p slot="description">Feel free to reach out for any questions, collaboration opportunities, or to connect. I'm always excited to discuss new projects and ideas.</p>
-  </PageHeader>
+  <div class="flex flex-col gap-12">
+    <PageHeader title={pageTitle} chipText={chipText}>
+      <p slot="description">Feel free to reach out for any questions, collaboration opportunities, or to connect. I'm always excited to discuss new projects and ideas.</p>
+    </PageHeader>
+    <form method="POST" class="flex flex-col gap-9" id="ContactForm">
+      <Input id="fullname" label="FULLNAME" placeholder="John Doe" required/>
+      <Input type="email" id="email" label="EMAIL" placeholder="example@domain.com" required/>
+      <Input id="topic" label="TOPIC" placeholder="E-commerce website" required/>
+      <Input id="message" label="MESSAGE" placeholder="" required/>
+      <button type="submit" class="bg-secondary-alt flex gap-3 px-2 items-center w-fit">
+        <div class="pt-3 pb-1.5 uppercase text-primary font-sans">SEND</div>
+        <div class="w-[24px] h-[24px] text-primary"><IconSend/></div>
+      </button>
+    </form>
+  </div>
 </section>
+
+<script>
+  document.querySelector('#ContactForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+    });
+    if (response.ok) {
+      form.reset();
+      alert('Message sent successfully');
+    } else {
+      alert('An error occurred while sending the message');
+    }
+  });
+</script>
