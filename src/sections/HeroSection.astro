@@ -11,12 +11,12 @@ import avatar from '../assets/Avatar.png';
 const chipText = "WEB DEVELOPER PORTFOLIO"
 ---
 
-<section class="m-auto w-auto w-max-xl overflow-hidden relative">
+<section class="m-auto w-auto w-max-xl overflow-hidden relative" id="home">
   <div>
     <div class={
     cn(
       "absolute top-0 right-0 w-[133px] h-[133px] translate-x-1/2 translate-y-[-50%] bg-circles-union bg-no-repeat content-['']",
-      "lg:w-[600px] lg:h-[600px]")
+      "lg:hidden")
     }>
       <CirclesUnion />
     </div>
@@ -39,7 +39,7 @@ const chipText = "WEB DEVELOPER PORTFOLIO"
               <Link href="#about">Favorite tech stack</Link>
             </li>
             <li>
-              <Link href="#">BLOG</Link>
+              <Link href="#technologies">SKILLS</Link>
             </li>
             <li>
               <Link href="#projects">MY PROJECTS</Link>

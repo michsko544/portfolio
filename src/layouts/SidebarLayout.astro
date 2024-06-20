@@ -1,7 +1,9 @@
 ---
-import Footer from "src/components/Footer.astro"
-import Header from "../components/Header.tsx"
-import BaseLayout from "../layouts/BaseLayout.astro"
+import Footer from "src/components/Footer.astro";
+import Header from "../components/Header.tsx";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CirclesUnionDesktop from "src/components/CirclesUnionDesktop.astro";
+import { cn } from "src/utils";
 ---
 
 <BaseLayout>
@@ -10,4 +12,11 @@ import BaseLayout from "../layouts/BaseLayout.astro"
     <slot/>
   </main>
   <Footer />
+  <div class={
+    cn(
+      "absolute hidden top-[100vh] right-0 w-[600px] h-[600px] translate-x-1/2 translate-y-[-50%] content-['']",
+      "lg:block")
+  }>
+    <CirclesUnionDesktop />
+  </div>
 </BaseLayout>

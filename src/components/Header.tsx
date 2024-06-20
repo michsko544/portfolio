@@ -123,6 +123,10 @@ export default function Header() {
 		setIsMenuOpened(true);
 	};
 
+	const onMenuClick = () => {
+		closeMenu();
+	};
+
 	return (
 		<header>
 			<div className="">
@@ -155,6 +159,7 @@ export default function Header() {
 								<li>
 									<a
 										href="#home"
+										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										HOME
@@ -163,6 +168,7 @@ export default function Header() {
 								<li>
 									<a
 										href="#about"
+										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										ABOUT
@@ -171,6 +177,7 @@ export default function Header() {
 								<li>
 									<a
 										href="#technologies"
+										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										SKILLS
@@ -179,6 +186,7 @@ export default function Header() {
 								<li>
 									<a
 										href="#projects"
+										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										PORTFOLIO
@@ -186,7 +194,8 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#home"
+										href="#contact"
+										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										CONTACT

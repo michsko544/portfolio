@@ -3,6 +3,7 @@ import IconSend from "src/components/IconSend.astro";
 import Input from "src/components/Input.astro";
 import PageHeader from "src/components/PageHeader.astro";
 import { Resend } from 'resend';
+import Textarea from "src/components/Textarea.astro";
 
 const resend = new Resend(import.meta.env.RESEND_TOKEN);
 
@@ -38,11 +39,11 @@ if (Astro.request.method === "POST") {
       <p slot="description">Feel free to reach out for any questions, collaboration opportunities, or to connect. I'm always excited to discuss new projects and ideas.</p>
     </PageHeader>
     <form method="POST" class="flex flex-col gap-9" id="ContactForm">
-      <Input id="fullname" label="FULLNAME" placeholder="John Doe" required/>
-      <Input type="email" id="email" label="EMAIL" placeholder="example@domain.com" required/>
-      <Input id="topic" label="TOPIC" placeholder="E-commerce website" required/>
-      <Input id="message" label="MESSAGE" placeholder="" required/>
-      <button type="submit" class="bg-secondary-alt flex gap-3 px-2 items-center w-fit">
+      <Input id="fullname" label="FULLNAME" placeholder="John Doe" required autocomplete="name" />
+      <Input type="email" id="email" label="EMAIL" placeholder="example@domain.com" required autocomplete="email"/>
+      <Input id="topic" label="TOPIC" placeholder="E-commerce website" required autocomplete="off"/>
+      <Textarea id="message" label="MESSAGE" placeholder="I am writing regarding a cooperation proposal..." required autocomplete="off"/>
+      <button type="submit" class="bg-secondary-alt flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96]">
         <div class="pt-3 pb-1.5 uppercase text-primary font-sans">SEND</div>
         <div class="w-[24px] h-[24px] text-primary"><IconSend/></div>
       </button>
