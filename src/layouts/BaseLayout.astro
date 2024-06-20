@@ -1,4 +1,5 @@
 ---
+import GoogleAnalytics from "src/components/GoogleAnalytics.astro";
 import "../styles/index.css";
 ---
 
@@ -22,6 +23,9 @@ import "../styles/index.css";
       }
       initTheme();
     </script>
+    {import.meta.env.PROD && (
+      <GoogleAnalytics />
+    )}
 	</head>
 	<body>
     <slot/>
