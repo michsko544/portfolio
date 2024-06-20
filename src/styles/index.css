@@ -127,6 +127,11 @@
 		@apply opacity-100 visible backdrop-blur-[6px];
 	}
 
+	a,
+	button {
+		outline-color: var(--color-primary);
+	}
+
 	h1,
 	h2,
 	h3,

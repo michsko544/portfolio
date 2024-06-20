@@ -18,13 +18,17 @@ if (Astro.request.method === "POST") {
     const topic = data.get("topic");
     const message = data.get("message");
 
-    await resend.emails.send({
+    const response = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: 'michsko@poczta.onet.pl',
       subject: `Contact form - ${fullname}`,
       html: `<h3>${topic}</h3><p>${message}</p><a href="mailto:${email}">${email}</a>`,
       reply_to: `${email}`,
     });
+
+    if(response.error){
+      throw new Error(response.error.message);
+    }
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -52,6 +56,27 @@ if (Astro.request.method === "POST") {
 </section>
 
 <script>
+  import Toastify from 'toastify-js';
+  import "toastify-js/src/toastify.css";
+
+  const toastOptions = {
+    className: "info",
+    duration: 4000,
+    stopOnFocus: true,
+    style: {
+      background: "var(--color-bg-alt)",
+      color: "var(--color-primary)",
+      fontFamily: "var(--font-title)",
+      textTransform: "uppercase",
+      borderRadius: "4px",
+      padding: "16px 20px 8px 20px",
+      textAlign: "center",
+      maxWidth: "clamp(100px, calc(100% - 32px), 460px)",
+      boxShadow: "none",
+      border: "1px solid var(--color-border)"
+    }
+  }
+
   document.querySelector('#ContactForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -62,9 +87,15 @@ if (Astro.request.method === "POST") {
     });
     if (response.ok) {
       form.reset();
-      alert('Message sent successfully');
+      Toastify({
+        ...toastOptions,
+        text: "Thanks for reaching out! Expect a reply soon."
+      }).showToast();
     } else {
-      alert('An error occurred while sending the message');
+      Toastify({
+        ...toastOptions,
+        text: "Oops! Something went wrong. Please try again later."
+      }).showToast();
     }
   });
 </script>
