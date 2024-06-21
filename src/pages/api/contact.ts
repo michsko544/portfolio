@@ -2,6 +2,17 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
 const resend = new Resend(import.meta.env.RESEND_TOKEN);
+const hcaptchaSecret = new Resend(import.meta.env.HCAPTCHA_SECRET_KEY);
+
+type HCaptchaResponse = {
+	success: boolean; // is the passcode valid, and does it meet security criteria you specified, e.g. sitekey?
+	challenge_ts: string; // timestamp of the challenge (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
+	hostname: string; // the hostname of the site where the challenge was solved
+	credit: boolean; // optional: whether the response will be credited
+	'error-codes': unknown[]; // optional: any error codes
+	score: number; // ENTERPRISE feature: a score denoting malicious activity.
+	score_reason: unknown[]; // ENTERPRISE feature: reason(s) for score. See BotStop.com for details.
+};
 
 export const POST: APIRoute = async ({ request }) => {
 	const data = await request.formData();
@@ -9,6 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
 	const email = data.get('email');
 	const topic = data.get('topic');
 	const message = data.get('message');
+	const captcha = data.get('captcha');
 
 	try {
 		if (!fullname) {
@@ -25,6 +37,19 @@ export const POST: APIRoute = async ({ request }) => {
 
 		if (!message) {
 			throw new Error('Message is required');
+		}
+
+		const captchaResponse = await fetch('https://hcaptcha.com/siteverify', {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+			},
+			body: `response=${captcha}&secret=${hcaptchaSecret}`,
+			method: 'POST',
+		});
+
+		const captchaValidation = (await captchaResponse.json()) as HCaptchaResponse;
+		if (!captchaValidation.success) {
+			throw new Error('Invalid captcha code');
 		}
 
 		const response = await resend.emails.send({

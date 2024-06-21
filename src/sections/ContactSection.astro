@@ -7,6 +7,7 @@ import Textarea from "src/components/Textarea.astro";
 
 const chipText = "LET’S BE IN TOUCH"
 const pageTitle = "Contact"
+const hcaptchaSiteKey = import.meta.env.PUBLIC_HCAPTCHA_SITE_KEY
 ---
 
 <section id="contact" class="contentSection">
@@ -19,6 +20,7 @@ const pageTitle = "Contact"
       <Input type="email" id="email" label="EMAIL" placeholder="example@domain.com" required autocomplete="email"/>
       <Input id="topic" label="TOPIC" placeholder="E-commerce website" required autocomplete="off"/>
       <Textarea id="message" label="MESSAGE" placeholder="I am writing regarding a cooperation proposal..." required autocomplete="off"/>
+      <div id="hcaptcha" class="h-captcha" data-sitekey={hcaptchaSiteKey} data-callback="onContactSubmit" data-size="invisible"></div>
       <button type="submit" class="bg-secondary-alt flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50">
         <div class="pt-3 pb-1.5 uppercase text-primary font-sans">SEND</div>
         <div class="w-[24px] h-[24px] text-primary"><IconSend/></div>
@@ -32,34 +34,41 @@ const pageTitle = "Contact"
 
   document.querySelector('#ContactForm').addEventListener('submit', async (event) => {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
+    window.hcaptcha.execute();
+  });
+
+  window.onContactSubmit = function (token: string) {
+    const form = document.querySelector('#ContactForm') as HTMLFormElement;
     const formData = new FormData(form);
+    formData.append('captcha', token);
 
     const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     submitButton.disabled = true;
     const submitButtonContent = submitButton.innerHTML;
     submitButton.innerHTML = '<div class="pt-3 pb-1.5 uppercase text-primary font-sans">Sending...</div>';
 
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: formData,
-    });
-    if (response.ok) {
-      form.reset();
-      showToast({
-        status: "success",
-        title: "Thanks for reaching out!",
-        description:"Expect a reply soon."
+    (async () => {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
       });
-    } else {
-      showToast({
-        status: "error",
-        title: "Oops! Something went wrong.",
-        description:"Please try again later."
-      });
-    }
+      if (response.ok) {
+        form.reset();
+        showToast({
+          status: "success",
+          title: "Thanks for reaching out!",
+          description:"Expect a reply soon."
+        });
+      } else {
+        showToast({
+          status: "error",
+          title: "Oops! Something went wrong.",
+          description:"Please try again later."
+        });
+      }
 
-    submitButton.disabled = false;
-    submitButton.innerHTML = submitButtonContent;
-  });
+      submitButton.disabled = false;
+      submitButton.innerHTML = submitButtonContent;
+    })();
+  }
 </script>
