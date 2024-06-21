@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
 const resend = new Resend(import.meta.env.RESEND_TOKEN);
-const hcaptchaSecret = new Resend(import.meta.env.HCAPTCHA_SECRET_KEY);
+const hcaptchaSecret = import.meta.env.HCAPTCHA_SECRET_KEY;
 
 type HCaptchaResponse = {
 	success: boolean; // is the passcode valid, and does it meet security criteria you specified, e.g. sitekey?
