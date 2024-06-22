@@ -2,6 +2,7 @@
 import GoogleAnalytics from "src/components/GoogleAnalytics.astro";
 import "../styles/index.css";
 import HCaptcha from "src/components/HCaptcha.astro";
+import CookieConsent from "src/components/CookieConsent.tsx";
 ---
 
 <html lang="en">
@@ -40,5 +41,6 @@ import HCaptcha from "src/components/HCaptcha.astro";
 	</head>
 	<body>
     <slot/>
+    <CookieConsent client:only="react"/>
 	</body>
 </html>
