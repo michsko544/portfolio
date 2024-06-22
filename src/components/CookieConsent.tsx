@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { cn } from 'src/utils';
+import { getLocalStorageConsent, setLocalStorageConsent } from 'src/utils/cookie';
 
 export default function CookieConsent() {
-	const [isOpen, setIsOpen] = useState(true);
+	const hasNotSeeConsent = getLocalStorageConsent() === null;
+
+	const [isOpen, setIsOpen] = useState(hasNotSeeConsent);
 
 	const title = 'Cookies';
 	const description =
@@ -21,6 +24,7 @@ export default function CookieConsent() {
 			analytics_storage: 'granted',
 		});
 		setIsOpen(false);
+		setLocalStorageConsent('accept');
 	};
 
 	const denyCookies = () => {
@@ -31,6 +35,7 @@ export default function CookieConsent() {
 			analytics_storage: 'denied',
 		});
 		setIsOpen(false);
+		setLocalStorageConsent('deny');
 	};
 
 	return (
@@ -64,13 +69,13 @@ export default function CookieConsent() {
 						onClick={acceptCookies}
 						className="bg-secondary flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50 custom-transition"
 					>
-						<div className="pt-3 pb-1.5 uppercase text-primary font-sans">ACCEPT</div>
+						<div className="pt-3 pb-1.5 uppercase text-primary font-sans text-[16px] leading-[22px]">ACCEPT</div>
 					</button>
 					<button
 						onClick={denyCookies}
 						className="bg-secondary-alt flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50 custom-transition"
 					>
-						<div className="pt-3 pb-1.5 uppercase text-primary font-sans">DENY ALL</div>
+						<div className="pt-3 pb-1.5 uppercase text-primary font-sans text-[16px] leading-[22px]">DENY ALL</div>
 					</button>
 				</div>
 			</div>
