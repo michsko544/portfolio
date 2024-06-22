@@ -5,10 +5,8 @@
 <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-LTK1PTCXRR">
 </script>
 <script type='text/partytown'>
-  import { getLocalStorageConsent } from "src/utils/cookie";
-
   function gtag(){window.dataLayer.push(arguments);}
-  const consent = getLocalStorageConsent();
+  const consent = localStorage.getItem('cookie_consent');
 
   if(consent === 'accept'){
     console.log("Consent granted");
