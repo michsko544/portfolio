@@ -2,7 +2,7 @@
 	"extends": "astro/tsconfigs/base",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"types": ["./src/globals.d.ts"],
+		"types": ["./src/globals.d.ts", "@types/gtag.js"],
 		"verbatimModuleSyntax": true,
 		"plugins": [
 			{

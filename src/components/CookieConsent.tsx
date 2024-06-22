@@ -8,6 +8,31 @@ export default function CookieConsent() {
 	const description =
 		'We use cookies and similar technologies to help personalize content, tailor and measure ads, and provide a better experience. By clicking accept, you agree to this, as outlined in our Cookie Policy.';
 
+	const gtag: Gtag.Gtag = () => {
+		// eslint-disable-next-line prefer-rest-params
+		window.dataLayer.push(arguments);
+	};
+
+	const acceptCookies = () => {
+		gtag('consent', 'update', {
+			ad_user_data: 'granted',
+			ad_personalization: 'granted',
+			ad_storage: 'granted',
+			analytics_storage: 'granted',
+		});
+		setIsOpen(false);
+	};
+
+	const denyCookies = () => {
+		gtag('consent', 'update', {
+			ad_user_data: 'denied',
+			ad_personalization: 'denied',
+			ad_storage: 'denied',
+			analytics_storage: 'denied',
+		});
+		setIsOpen(false);
+	};
+
 	return (
 		<div
 			className={cn(
@@ -36,13 +61,13 @@ export default function CookieConsent() {
 				</div>
 				<div className="flex gap-2 justify-end">
 					<button
-						onClick={() => setIsOpen(false)}
+						onClick={acceptCookies}
 						className="bg-secondary flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50 custom-transition"
 					>
 						<div className="pt-3 pb-1.5 uppercase text-primary font-sans">ACCEPT</div>
 					</button>
 					<button
-						onClick={() => setIsOpen(false)}
+						onClick={denyCookies}
 						className="bg-secondary-alt flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50 custom-transition"
 					>
 						<div className="pt-3 pb-1.5 uppercase text-primary font-sans">DENY ALL</div>

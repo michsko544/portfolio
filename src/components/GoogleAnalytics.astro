@@ -4,9 +4,7 @@
 <!-- Google tag (gtag.js) -->
 <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-LTK1PTCXRR"></script>
 <script type='text/partytown'>
-  window.dataLayer = window.dataLayer || [];
-  // eslint-disable-next-line no-undef
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){window.dataLayer.push(arguments);}
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
@@ -17,5 +15,4 @@
   gtag('js', new Date());
 
   gtag('config', 'G-LTK1PTCXRR');
-  window.gtag = gtag;
 </script>

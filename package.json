@@ -38,6 +38,8 @@
 	},
 	"devDependencies": {
 		"@astrojs/ts-plugin": "^1.8.0",
+		"@types/gtag.js": "^0.0.20",
+		"@types/toastify-js": "^1.12.3",
 		"@typescript-eslint/eslint-plugin": "^7.11.0",
 		"@typescript-eslint/parser": "^7.11.0",
 		"eslint": "^8.57.0",
