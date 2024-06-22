@@ -9,7 +9,6 @@
   const consent = localStorage.getItem('cookie_consent');
 
   if(consent === 'accept'){
-    console.log("Consent granted");
     gtag('consent', 'default', {
 			ad_user_data: 'granted',
 			ad_personalization: 'granted',
@@ -17,7 +16,6 @@
 			analytics_storage: 'granted',
 		});
   } else {
-    console.log("Consent denied");
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
