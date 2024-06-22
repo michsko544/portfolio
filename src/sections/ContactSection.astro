@@ -20,7 +20,7 @@ const hcaptchaSiteKey = import.meta.env.PUBLIC_HCAPTCHA_SITE_KEY
       <Input type="email" id="email" label="EMAIL" placeholder="example@domain.com" required autocomplete="email"/>
       <Input id="topic" label="TOPIC" placeholder="E-commerce website" required autocomplete="off"/>
       <Textarea id="message" label="MESSAGE" placeholder="I am writing regarding a cooperation proposal..." required autocomplete="off"/>
-      <div id="hcaptcha" class="h-captcha" data-sitekey={hcaptchaSiteKey} data-callback="onContactSubmit" data-size="invisible"></div>
+      <div id="hcaptcha" class="h-captcha hidden" data-sitekey={hcaptchaSiteKey} data-callback="onContactSubmit" data-size="invisible"></div>
       <button type="submit" class="bg-secondary-alt flex gap-3 px-2 items-center w-fit rounded-[4px] hover:contrast-[0.96] disabled:opacity-50">
         <div class="pt-3 pb-1.5 uppercase text-primary font-sans">SEND</div>
         <div class="w-[24px] h-[24px] text-primary"><IconSend/></div>
