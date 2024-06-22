@@ -11,6 +11,9 @@ dependencies:
   '@astrojs/netlify':
     specifier: ^5.3.1
     version: 5.3.1(@opentelemetry/api@1.8.0)(astro@4.9.2)
+  '@astrojs/partytown':
+    specifier: ^2.1.1
+    version: 2.1.1
   '@astrojs/react':
     specifier: ^3.4.0
     version: 3.4.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)(vite@5.2.12)
@@ -195,6 +198,13 @@ packages:
       esbuild: 0.19.12
     transitivePeerDependencies:
       - '@opentelemetry/api'
+    dev: false
+
+  /@astrojs/partytown@2.1.1:
+    resolution: {integrity: sha512-KvecQuGGgrDrdTjC5awmtoQXqJFinChfeizKBJyr7F5EGQPx62xq8SIWkcXamLr5xZyNw0lryKeLtIzbxRH/zw==}
+    dependencies:
+      '@builder.io/partytown': 0.10.2
+      mrmime: 2.0.0
     dev: false
 
   /@astrojs/prism@3.1.0:
@@ -518,6 +528,12 @@ packages:
       '@babel/helper-string-parser': 7.24.6
       '@babel/helper-validator-identifier': 7.24.6
       to-fast-properties: 2.0.0
+    dev: false
+
+  /@builder.io/partytown@0.10.2:
+    resolution: {integrity: sha512-A9U+4PREWcS+CCYzKGIPovtGB/PBgnH/8oQyCE6Nr9drDJk6cMPpLQIEajpGPmG9tYF7N3FkRvhXm/AS9+0iKg==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
     dev: false
 
   /@emmetio/abbreviation@2.3.3:

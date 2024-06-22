@@ -1,6 +1,7 @@
 ---
 import GoogleAnalytics from "src/components/GoogleAnalytics.astro";
 import "../styles/index.css";
+import HCaptcha from "src/components/HCaptcha.astro";
 ---
 
 <html lang="en">
@@ -35,7 +36,7 @@ import "../styles/index.css";
     {import.meta.env.PROD && (
       <GoogleAnalytics />
     )}
-    <script src="https://js.hcaptcha.com/1/api.js" is:inline></script>
+    <HCaptcha />
 	</head>
 	<body>
     <slot/>
