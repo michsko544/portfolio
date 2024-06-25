@@ -24,7 +24,6 @@ import JsonLdPerson from "src/components/JsonLdPerson.astro";
     <meta name="description" content="Discover the portfolio of Michał Skorus, a web developer who combines creativity with technology to create performant, modern and responsive websites. Explore projects that stand out for their aesthetics, functionality, and innovative solutions. Get in touch to learn more!" />
     <meta name="author" content="Michał Skorus" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <JsonLdPerson />
     <script is:inline>
       var isDarkMode = function() {
         return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -42,6 +41,7 @@ import JsonLdPerson from "src/components/JsonLdPerson.astro";
       <GoogleAnalytics />
     )}
     <HCaptcha />
+    <JsonLdPerson />
 	</head>
 	<body>
     <slot/>
