@@ -3,25 +3,28 @@ import GoogleAnalytics from "src/components/GoogleAnalytics.astro";
 import "../styles/index.css";
 import HCaptcha from "src/components/HCaptcha.astro";
 import CookieConsent from "src/components/CookieConsent.tsx";
+import JsonLdPerson from "src/components/JsonLdPerson.astro";
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#262626">
-    <meta name="msapplication-TileColor" content="#FEF8EC">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#262626" />
+    <meta name="msapplication-TileColor" content="#FEF8EC" />
     <meta name="theme-color" content="#262626" />
 		<meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-		<title>Michał Skorus | Portfolio</title>
-    <meta name="description" content="Discover Michał Skorus’ innovative projects and expert services in web development. Explore his portfolio and insightful articles to see how his expertise can elevate your business.">
+		<title>Michał Skorus | Web Developer Portfolio</title>
+    <meta name="description" content="Discover the portfolio of Michał Skorus, a web developer who combines creativity with technology to create performant, modern and responsive websites. Explore projects that stand out for their aesthetics, functionality, and innovative solutions. Get in touch to learn more!" />
+    <meta name="author" content="Michał Skorus" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <JsonLdPerson />
     <script is:inline>
       var isDarkMode = function() {
         return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);

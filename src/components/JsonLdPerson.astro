@@ -1,0 +1,40 @@
+---
+import type { Person } from 'schema-dts';
+import avatar from '../assets/Michal-Skorus.jpg';
+import avatar2 from '../assets/Michal-Skorus-2.jpg';
+
+const schema: Person & { "@context": "https://schema.org" }= {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Michał Skorus",
+  alternateName: "Michał Skorus",
+  birthDate: "1998-05-08",
+  birthPlace: "Katowice, Poland",
+  gender: "Male",
+  url: "https://www.michalskorus.pl/",
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Silesian University of Technology in Gliwice",
+    sameAs: "https://www.polsl.pl/"
+  },
+  knowsAbout: ["JavaScript", "TypeScript", "React", "Next.js", "Svelte.js", "Shopify", "Node.js", "Remix", "GraphQL", "Docker", "SCSS", "TailwindCSS"],
+  jobTitle: "Web Developer",
+  nationality: "Polish",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Katowice",
+    addressRegion: "Silesia",
+    addressCountry: "Poland"
+  },
+  image: [ avatar.src, avatar2.src ],
+  sameAs: [
+    "https://twitter.com/michsko544",
+    "https://linkedin.com/in/micha%C5%82-skorus",
+    "https://github.com/michsko544",
+    "https://stackoverflow.com/users/15263316/micha%c5%82-skorus",
+    "https://www.instagram.com/michal_skorus/",
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
