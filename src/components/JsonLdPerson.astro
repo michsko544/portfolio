@@ -1,7 +1,5 @@
 ---
 import type { Person } from 'schema-dts';
-import avatar from '../assets/Michal-Skorus.jpg';
-import avatar2 from '../assets/Michal-Skorus-2.jpg';
 
 const schema: Person & { "@context": "https://schema.org" }= {
   "@context": "https://schema.org",
@@ -26,7 +24,10 @@ const schema: Person & { "@context": "https://schema.org" }= {
     addressRegion: "Silesia",
     addressCountry: "Poland"
   },
-  image: [ avatar.src, avatar2.src ],
+  image: [
+    "https://www.michalskorus.pl/Michal-Skorus.jpg",
+    "https://www.michalskorus.pl/Michal-Skorus-2.jpg",
+  ],
   sameAs: [
     "https://twitter.com/michsko544",
     "https://linkedin.com/in/micha%C5%82-skorus",
