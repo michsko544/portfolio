@@ -36,5 +36,6 @@ module.exports = {
 		sourceType: 'module',
 	},
 	plugins: ['@typescript-eslint'],
+	ignorePatterns: ['env.d.ts'],
 	rules: {},
 };

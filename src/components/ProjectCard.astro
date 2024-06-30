@@ -29,7 +29,7 @@ const { index = "00", projectTitle="", year="", role="", chips=[], image, url="#
           "relative overflow-hidden rounded-xl w-full saturate-0 custom-transition hover:saturate-[0.5] max-w-[1440px]",
           "before:absolute before:inset-0 before:content-[''] before:bg-black before:opacity-20 lg:before:bg-[unset]"
         )}>
-        <Image
+        {image && <Image
           src={image}
           alt={`Michał Skorus Project - ${projectTitle}`}
           widths={[360, 720 ,1440]}
@@ -38,7 +38,7 @@ const { index = "00", projectTitle="", year="", role="", chips=[], image, url="#
           loading="lazy"
           fetchpriority="low"
           class="object-cover object-left-top w-full aspect-[45/32]"
-        />
+        />}
       </div>
       <div class="flex flex-col gap-6 items-end">
         <span class="absolute top-3 left-3 font-sans text-[64px] leading-[86px] lg:static lg:text-right ">{index}</span>
