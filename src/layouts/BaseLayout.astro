@@ -3,7 +3,17 @@ import GoogleAnalytics from "src/components/GoogleAnalytics.astro";
 import "../styles/index.css";
 import HCaptcha from "src/components/HCaptcha.astro";
 import CookieConsent from "src/components/CookieConsent.tsx";
-import JsonLdPerson from "src/components/JsonLdPerson.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = "Michał Skorus",
+  description="Discover the portfolio of Michał Skorus, a web developer who combines creativity with technology to create performant, modern and responsive websites. Explore projects that stand out for their aesthetics, functionality, and innovative solutions. Get in touch to learn more!"
+} = Astro.props;
+
 ---
 
 <html lang="en">
@@ -20,8 +30,8 @@ import JsonLdPerson from "src/components/JsonLdPerson.astro";
     <meta name="theme-color" content="#262626" />
 		<meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-		<title>Michał Skorus | Web Developer Portfolio</title>
-    <meta name="description" content="Discover the portfolio of Michał Skorus, a web developer who combines creativity with technology to create performant, modern and responsive websites. Explore projects that stand out for their aesthetics, functionality, and innovative solutions. Get in touch to learn more!" />
+		<title>{title}</title>
+    <meta name="description" content={description} />
     <meta name="author" content="Michał Skorus" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>
@@ -41,7 +51,6 @@ import JsonLdPerson from "src/components/JsonLdPerson.astro";
       <GoogleAnalytics />
     )}
     <HCaptcha />
-    <JsonLdPerson />
 	</head>
 	<body>
     <slot/>

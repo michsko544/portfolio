@@ -3,8 +3,9 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import partytown from '@astrojs/partytown';
 import netlify from '@astrojs/netlify';
-
 import sitemap from '@astrojs/sitemap';
+
+import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,6 +21,7 @@ export default defineConfig({
 				forward: ['dataLayer.push'],
 			},
 		}),
+		mdx(),
 		sitemap({
 			serialize(item) {
 				if (item.url === 'https://www.michalskorus.pl/') {

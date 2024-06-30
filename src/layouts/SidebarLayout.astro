@@ -4,9 +4,10 @@ import Header from "../components/Header.tsx";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CirclesUnionDesktop from "src/components/CirclesUnionDesktop.astro";
 import { cn } from "src/utils";
+import JsonLdPerson from "src/components/JsonLdPerson.astro";
 ---
 
-<BaseLayout>
+<BaseLayout title="Michał Skorus | Web Developer Portfolio">
   <Header client:only="react" />
   <main class="lg:pl-[30%]">
     <slot/>
@@ -19,4 +20,5 @@ import { cn } from "src/utils";
   }>
     <CirclesUnionDesktop />
   </div>
+  <JsonLdPerson />
 </BaseLayout>
