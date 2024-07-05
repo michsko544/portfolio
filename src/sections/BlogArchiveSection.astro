@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Chip from "src/components/Chip.astro";
+import Link from "src/components/Link.astro";
+import PageHeader from "src/components/PageHeader.astro";
+
+const pageTitle = "Blog";
+const chipText = "MY ARTICLES";
+
+const blogEntries = await getCollection('blog');
+
+const tags = new Set<string>();
+blogEntries.forEach((entry) => {
+  entry.data.tags.forEach((tag) => tags.add(tag));
+});
+---
+
+<section class="contentSection lg:pt-[calc(calc(100vh_-_420px)_/_2)]">
+  <div class="flex flex-col gap-6 w-full lg:gap-12 ">
+    <PageHeader title={pageTitle} chipText={chipText}>
+      <p slot="description">Welcome to my blog! Discover insights, tutorials, and updates on web development. Join me as I explore new technologies, share experiences, and discuss programming topics.</p>
+    </PageHeader>
+    {tags.size > 0 && <div class="flex w-full lg:max-w-[50%] lg:ml-auto lg:justify-end">
+      <div class="flex flex-col gap-2">
+        <div class="text-[10px] leading-[1.2] font-sans uppercase lg:text-right lg:text-[12px]">AVAILABLE TOPICS:</div>
+        <div class="flex flex-wrap gap-2 lg:justify-end">
+          {[...tags].map((tag) => (
+            <Chip variant="outlined" text={tag}/>
+          ))}
+        </div>
+      </div>
+    </div>}
+    <div class="grid gap-3 lg:grid-cols-2 lg:pb-12 lg:[&>*:nth-child(even)]:translate-y-1/3">
+      {blogEntries.map((entry) => (
+        <div class="bg-secondary-alt rounded-[16px] p-3">
+          <div class="flex flex-col gap-3">
+            <a href={`/blog/${entry.slug}`} class="rounded-[12px] overflow-hidden">
+              <Image src={entry.data.cover} alt={entry.data.coverAlt}/>
+            </a>
+            <div>
+              <h3 class="text-[20px] font-sans">{entry.data.title}</h3>
+              <time class="flex gap-1 items-center">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.66667 18.3334C4.20833 18.3334 3.81611 18.1704 3.49 17.8442C3.16389 17.5181 3.00056 17.1256 3 16.6667V5.00008C3 4.54175 3.16333 4.14953 3.49 3.82341C3.81667 3.4973 4.20889 3.33397 4.66667 3.33341H5.5V1.66675H7.16667V3.33341H13.8333V1.66675H15.5V3.33341H16.3333C16.7917 3.33341 17.1842 3.49675 17.5108 3.82341C17.8375 4.15008 18.0006 4.5423 18 5.00008V16.6667C18 17.1251 17.8369 17.5176 17.5108 17.8442C17.1847 18.1709 16.7922 18.334 16.3333 18.3334H4.66667ZM4.66667 16.6667H16.3333V8.33341H4.66667V16.6667Z" fill="currentColor"/>
+                </svg>
+                <span class="text-[12px] leading-[1] text-primary">{`${entry.data.publishDate.getDay()} ${entry.data.publishDate.toLocaleString('en', { month: 'short' })} ${entry.data.publishDate.getFullYear()}`}</span>
+              </time>
+              <div class="flex flex-wrap gap-2 mt-5 mb-3">
+                {entry.data.tags.map((tag) => (
+                  <Chip text={tag} variant="outlined" />
+                ))}
+              </div>
+              <Link href={`/blog/${entry.slug}`} >LEARN MORE</Link>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

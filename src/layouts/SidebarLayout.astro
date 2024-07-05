@@ -5,14 +5,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CirclesUnionDesktop from "src/components/CirclesUnionDesktop.astro";
 import { cn } from "src/utils";
 import JsonLdPerson from "src/components/JsonLdPerson.astro";
+
+type Props = {
+  title?: string;
+  showFooter?: boolean;
+};
+
+const { title="Michał Skorus | Web Developer Portfolio", showFooter = true } = Astro.props;
 ---
 
-<BaseLayout title="Michał Skorus | Web Developer Portfolio">
+<BaseLayout title={title}>
   <Header client:only="react" />
   <main class="lg:pl-[30%]">
     <slot/>
   </main>
-  <Footer />
+  {showFooter && <Footer />}
   <div class={
     cn(
       "absolute hidden top-[100vh] right-0 w-[600px] h-[600px] translate-x-1/2 translate-y-[-50%] content-['']",

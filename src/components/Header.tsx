@@ -119,7 +119,7 @@ export default function Header() {
 							<ul className="flex flex-col gap-3">
 								<li>
 									<a
-										href="#home"
+										href="/#home"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
@@ -128,7 +128,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#about"
+										href="/#about"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
@@ -137,7 +137,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#technologies"
+										href="/#technologies"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
@@ -146,7 +146,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#projects"
+										href="/#projects"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
@@ -155,7 +155,7 @@ export default function Header() {
 								</li>
 								<li>
 									<a
-										href="#contact"
+										href="/#contact"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
