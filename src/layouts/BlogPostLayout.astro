@@ -5,13 +5,18 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import Chip from "src/components/Chip.astro";
 import DarkModeSwitch from 'src/components/DarkModeSwitch';
+import JsonLdBreadcrumbs from "src/json-ld/JsonLdBreadcrumbs.astro";
+import { format } from 'date-fns';
+import Link from "src/components/Link.astro";
 
-type Props = {frontmatter: CollectionEntry<'blog'>['data']};
+type Props = { frontmatter: CollectionEntry<'blog'>['data'] };
 
 const { frontmatter } = Astro.props;
+const { slug="" } = Astro.params;
 
 ---
 <BaseLayout title={`${frontmatter.title} | Michał Skorus`}>
+
   <header class="sticky top-0 z-30 w-full py-4 px-3 bg-secondary custom-transition lg:py-6 lg:px-12 lg:bg-transparent">
     <div class="flex justify-between items-center w-full">
       <a href="/" class="block h-[24px] ">
@@ -26,7 +31,7 @@ const { frontmatter } = Astro.props;
     <header>
       <div class="relative z-[-1] mx-3">
         <div class="rounded-[16px] overflow-hidden">
-          <Image src={frontmatter.cover} alt={frontmatter.coverAlt}/>
+          <Image src={frontmatter.cover} alt={frontmatter.coverAlt} loading="eager" fetchpriority="high" width={750}/>
         </div>
         {frontmatter.coverAuthor && <span class="text-[8px] leading-[1] font-sans origin-bottom-left rotate-90 absolute top-2 left-full text-nowrap lg:text-[10px]">PHOTO BY {frontmatter.coverAuthor.toUpperCase()}</span>}
       </div>
@@ -38,7 +43,7 @@ const { frontmatter } = Astro.props;
               <path d="M3.3335 7.91659V2.08325L7.91683 4.99992L3.3335 7.91659Z" fill="currentColor"/>
             </svg>
           </div>
-          <li class="text-[10px] leading-[1] text-primary lg:text-[12px]">blog</li>
+          <li class="text-[10px] leading-[1] text-primary lg:text-[12px]"><a href="/blog">blog</a></li>
           <div class="w-[10px] h-[10px] flex-shrink-0">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.3335 7.91659V2.08325L7.91683 4.99992L3.3335 7.91659Z" fill="currentColor"/>
@@ -46,6 +51,11 @@ const { frontmatter } = Astro.props;
           </div>
           <li class="text-[10px] leading-[1] text-primary opacity-[0.64] lg:text-[12px]">post</li>
         </ul>
+        <JsonLdBreadcrumbs items={[
+          {name: "michalskorus.pl", url: "/"},
+          {name: "blog", url: "/blog"},
+          {name: frontmatter.title, url: `/blog/${slug}`}
+        ]}/>
         <div class="flex flex-col gap-3 items-center">
           <h1 class="text-[20px] text-center lg:text-[28px]">
             {frontmatter.title}
@@ -69,7 +79,7 @@ const { frontmatter } = Astro.props;
             <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.66667 18.3334C4.20833 18.3334 3.81611 18.1704 3.49 17.8442C3.16389 17.5181 3.00056 17.1256 3 16.6667V5.00008C3 4.54175 3.16333 4.14953 3.49 3.82341C3.81667 3.4973 4.20889 3.33397 4.66667 3.33341H5.5V1.66675H7.16667V3.33341H13.8333V1.66675H15.5V3.33341H16.3333C16.7917 3.33341 17.1842 3.49675 17.5108 3.82341C17.8375 4.15008 18.0006 4.5423 18 5.00008V16.6667C18 17.1251 17.8369 17.5176 17.5108 17.8442C17.1847 18.1709 16.7922 18.334 16.3333 18.3334H4.66667ZM4.66667 16.6667H16.3333V8.33341H4.66667V16.6667Z" fill="currentColor"/>
             </svg>
-            <span class="text-[10px] leading-[1] text-primary lg:text-[12px]">{`${frontmatter.publishDate.getDay()} ${frontmatter.publishDate.toLocaleString('en', { month: 'short' })} ${frontmatter.publishDate.getFullYear()}`}</span>
+            <span class="text-[10px] leading-[1] text-primary lg:text-[12px]">{format(frontmatter.publishDate, "dd MMM yyyy")}</span>
           </time>
           {frontmatter.readTime && <div class="flex gap-1 items-center">
             <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,6 +92,9 @@ const { frontmatter } = Astro.props;
     </header>
     <div class="blog-post-content">
       <slot />
+    </div>
+    <div class="mx-3 mb-12 lg:mx-6 lg:mb-24">
+      <Link href="/blog">Back to blog</Link>
     </div>
   </article>
 </BaseLayout>

@@ -1,0 +1,30 @@
+---
+import type { BreadcrumbList } from 'schema-dts';
+
+type Props = {
+  items?: {
+    name: string;
+    url: string;
+    image?: string;
+  }[];
+};
+
+const { items = [] } = Astro.props;
+
+const breadcrumbsSchema: BreadcrumbList & { "@context": "https://schema.org" } = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@id": `https://michalskorus.pl${item.url}`,
+      "name": item.name,
+    }
+  }))
+};
+
+const jsonld = JSON.stringify(breadcrumbsSchema);
+---
+
+<script type="application/ld+json" set:html={jsonld}/>

@@ -1,0 +1,145 @@
+---
+title: My First Blog Post on Astro Website
+author: Michał Skorus
+description: My experience with Astro framework
+cover: ./astro-blog-michal-skorus.png
+coverAlt: Michał Skorus' blog created using Astro framework | Laptop on desk
+coverAuthor: Kari Shea
+publishDate: 2024-07-06
+tags: ['Astro', 'Frontend']
+readTime: 8 min
+---
+
+### Creating a Blog with Astro Content Collections
+
+Starting a blog has never been easier, thanks to the intuitive design and simplicity of Astro. As someone who has dabbled in various web development frameworks, I was pleasantly surprised by how quickly I could set up everything using the Astro Content Collections. From organizing content to rendering posts, the entire process felt seamless and highly efficient.
+
+#### Intuitive Setup
+
+One of the first things that struck me about Astro was how straightforward the setup process was. Within minutes, I had a basic blog structure up and running. The documentation was clear, concise, and provided step-by-step instructions that even a novice could follow. This ease of setup is a testament to Astro’s commitment to creating a developer-friendly environment.
+
+First I needed to define what a blog post using `zod` library:
+
+```ts
+import { defineCollection, z } from 'astro:content';
+
+const blogCollection = defineCollection({
+	type: 'content',
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			description: z.string(),
+			author: z.string(),
+			cover: image()
+			coverAlt: z.string(),
+			coverAuthor: z.string().optional(),
+			publishDate: z.date(),
+			tags: z.array(z.string()),
+			readTime: z.string().optional(),
+			draft: z.boolean().optional(),
+		}),
+});
+
+export const collections = {
+	blog: blogCollection,
+};
+```
+
+And here is example code that is responsible for blog post page:
+
+```astro
+---
+import type { GetStaticPaths } from "astro";
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import JsonLdBlogPost from "src/json-ld/JsonLdBlogPost.astro";
+
+type Props = {
+  post: CollectionEntry<'blog'>;
+};
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  const postPaths = posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+
+  return [...postPaths];
+}) satisfies GetStaticPaths;
+
+const posts = await getCollection('blog');
+const { slug } = Astro.params;
+const post = posts.find((post) => post.slug === slug);
+if (!post) return Astro.redirect("/404");
+
+const { Content } = await post.render();
+---
+
+<BlogPostLayout frontmatter={{...post.data}}>
+  <JsonLdBlogPost
+    slug={slug}
+    data={{...post.data}}
+    articleBody={post.body}
+  />
+  <Content/>
+</BlogPostLayout>
+```
+
+#### Seamless Integration
+
+Integrating the Astro Content Collections allowed me to manage my content effortlessly. Fetching and displaying posts was a breeze, and the API’s flexibility meant I could easily customize my blog to suit my needs. Whether it was adding new features or tweaking existing ones, everything felt intuitive and well thought out.
+
+#### Speed and Performance
+
+Another standout feature of Astro is its speed and performance. The blog runs smoothly and loads quickly, which significantly enhances the user experience. The performance benefits are particularly noticeable when navigating between posts or loading new content. This speed is a direct result of Astro’s innovative architecture, which is designed to optimize loading times and improve overall efficiency.
+
+### Astro Islands
+
+Astro Islands is designed for building fast, modern websites. Astro allows the generation of static sites, making it easy for developers to create high-performance pages by focusing on delivering as much static content as possible and minimizing JavaScript.
+
+The "Astro Islands" concept within this framework refers to a unique approach to handling interactivity on static sites. Instead of loading a single-page application (SPA) with lots of client-side JavaScript, Astro Islands allows developers to selectively hydrate individual components of a webpage. Here’s how it works:
+
+1. **Static by Default:** Astro generates pages as static HTML by default, ensuring fast load times and better performance since there is minimal client-side JavaScript.
+2. **Islands of Interactivity:** Instead of hydrating the entire page, Astro allows developers to mark specific components as "islands" that need interactivity. These islands are then hydrated with JavaScript as needed, while the rest of the page remains static.
+3. **Framework Agnostic:** Astro supports a variety of JavaScript frameworks like React, Vue, Svelte, and more. Developers can choose the framework they prefer for the interactive parts of their site while benefiting from the static site generation for the rest.
+4. **Optimized Performance:** By hydrating only the necessary parts of the page, Astro ensures optimal performance. This approach reduces the amount of JavaScript that needs to be downloaded and executed on the client side, leading to faster load times and improved user experience.
+
+Overall, Astro Islands represents an innovative method of building high-performance websites that are primarily static but can have highly dynamic and interactive components as needed.
+
+### Challenges I Faced
+
+Now the meat, what everyone is waiting for. Although Astro made a very good impression, I encountered a few issues.
+
+![image](./emerson-vieira-meat-image.jpg)
+
+#### Sitemap
+
+The first challenge was configuring the sitemap. I had previous experience with the Next.js framework, where I could easily pull various types of pages and generate a dynamic sitemap using TypeScript.
+
+In Astro, there is a library called `@astrojs/sitemap` that allows you to serialize pages into a sitemap. However, I faced a problem with dynamic blog paths, as they were not included in the serializer. I found a solution on GitHub [#3682](https://github.com/withastro/astro/issues/3682) that involved manually fetching the post files and mapping them into the sitemap. On GitHub, I also read that the Astro team is considering a fix for this issue in the future, so hopefully, an improvement will be made soon ([discussion link](https://github.com/withastro/roadmap/discussions/906)).
+
+#### Contact form
+
+Another challenge was adding a contact form. Initially, I tried building the form directly within an Astro page. However, this approach provided a very basic experience and lacked interactivity.
+
+A much better result was achieved by using the API routes approach. API routes allow you to define endpoints that perform server-side business logic, similar to how it was done in Next.js. With this approach and the use of JavaScript, my form can display error messages and success notifications, and it also supports hCaptcha. I encourage you to try it out yourself 😁 ([link](https://www.michalskorus.pl/#contact)).
+
+#### Open Graph (OG) images
+
+I depend on dynamically generating images for thumbnails when sharing on social media. Unfortunately, I didn't find a built-in functionality in Astro for generating OG (Open Graph) images. The documentation refers to a [guide](https://techsquidtv.com/blog/generating-open-graph-images-for-astro/) on how to set up dynamically generated OG images, but it requires a lot of effort and code to achieve the desired outcome.
+
+The best solution might be to use an external library or plugin for Astro, although I haven't explored this option fully yet.
+
+#### Manage post content using Markdown
+
+I thought that configuring Markdown and styling it correctly would require a lot more work. However, I was pleasantly surprised by how Astro handled most of the problems out-of-the-box. A Markdown post was easily embedded into the layout I created, with no additional configuration required—it just worked.
+
+Even code snippets were displayed neatly, though they might have needed a bit of extra styling. Customizing the code styling mainly involved handling light/dark themes, which wasn’t very well documented. Despite this minor hiccup, Astro really impressed me here and made my life a lot easier.
+
+### Summary
+
+Overall, my experience with Astro for creating a blog has been largely positive. Astro's intuitive setup and efficient management of content collections allowed me to get my blog up and running quickly, while the Astro Islands architecture ensured high performance with minimal client-side JavaScript. I encountered a few challenges, such as configuring the sitemap, adding a contact form, and dynamically generating Open Graph images, but these hurdles were manageable and led to valuable learning experiences.
+
+One potential drawback of Astro is that, in larger projects, using multiple frameworks might complicate the codebase and affect its modularity. However, for developers working on smaller projects or personal portfolios, like myself, Astro is an excellent choice. It provides a streamlined and effective way to build modern, high-performance websites without unnecessary complexity.

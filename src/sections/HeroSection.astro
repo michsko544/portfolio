@@ -7,6 +7,7 @@ import Link from "../components/Link.astro";
 import { cn } from "src/utils";
 import { Image } from "astro:assets";
 import avatar from '../assets/Avatar.png';
+import JsonLdPerson from "src/json-ld/JsonLdPerson.astro";
 
 const chipText = "WEB DEVELOPER PORTFOLIO"
 ---
@@ -73,4 +74,5 @@ const chipText = "WEB DEVELOPER PORTFOLIO"
       </a>
     </div>
   </div>
+  <JsonLdPerson />
 </section>

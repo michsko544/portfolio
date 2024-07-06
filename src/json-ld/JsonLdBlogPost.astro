@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { BlogPosting } from 'schema-dts';
+import { getImage } from 'astro:assets';
+
+type Props = Pick<CollectionEntry<'blog'>, 'data'> & {slug: string; articleBody: string};
+
+const { data, slug, articleBody } = Astro.props;
+
+const image = await getImage({src: data.cover});
+
+const breadcrumbsSchema: BlogPosting & { "@context": "https://schema.org" } = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": data.title,
+  "image": `https://michalskorus.pl${image.src}`,
+  "editor": "Michał Skorus",
+  "genre": "Web development",
+  "keywords": data.tags.join(" "),
+  "url": `https://www.michalskorus.pl/blog/${slug}`,
+  "datePublished": data.publishDate.toISOString(),
+  "dateCreated": data.publishDate.toISOString(),
+  "dateModified": data.publishDate.toISOString(),
+  "description": data.description,
+  "articleBody": articleBody,
+  "author": {
+    "@type": "Person",
+    "name": "Michał Skorus",
+    "givenName" : "Michał",
+    "familyName" : "Skorus",
+    "url": "https://www.michalskorus.pl/",
+  }
+};
+
+const jsonld = JSON.stringify(breadcrumbsSchema);
+---
+
+<script type="application/ld+json" set:html={jsonld} />

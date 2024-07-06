@@ -36,7 +36,7 @@ blogEntries.forEach((entry) => {
         <div class="bg-secondary-alt rounded-[16px] p-3">
           <div class="flex flex-col gap-3">
             <a href={`/blog/${entry.slug}`} class="rounded-[12px] overflow-hidden">
-              <Image src={entry.data.cover} alt={entry.data.coverAlt}/>
+              <Image src={entry.data.cover} alt={entry.data.coverAlt} sizes={"100vw"}/>
             </a>
             <div>
               <h3 class="text-[20px] font-sans">{entry.data.title}</h3>

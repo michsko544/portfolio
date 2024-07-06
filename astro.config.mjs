@@ -4,12 +4,27 @@ import react from '@astrojs/react';
 import partytown from '@astrojs/partytown';
 import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import fs from 'node:fs';
 
 import mdx from '@astrojs/mdx';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const directoryPath = path.join(__dirname, 'src', 'content', 'blog');
+const files = fs.readdirSync(directoryPath);
+const siteUrl = 'https://www.michalskorus.pl';
+const blogUrls = files
+	.filter(file => file.includes('md'))
+	.map(file => {
+		const fileName = file.split('.')[0];
+		return `${siteUrl}/blog/${fileName}`;
+	});
+
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://www.michalskorus.pl',
+	site: siteUrl,
 	integrations: [
 		tailwind({
 			applyBaseStyles: false,
@@ -23,6 +38,7 @@ export default defineConfig({
 		}),
 		mdx(),
 		sitemap({
+			customPages: [...blogUrls],
 			serialize(item) {
 				if (item.url === 'https://www.michalskorus.pl/') {
 					item.changefreq = 'daily';
@@ -52,6 +68,11 @@ export default defineConfig({
 			},
 		}),
 	],
+	markdown: {
+		shikiConfig: {
+			theme: 'min-dark',
+		},
+	},
 	output: 'server',
 	adapter: netlify(),
 });

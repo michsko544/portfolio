@@ -1,17 +1,31 @@
 ---
+import type { GetStaticPaths } from "astro";
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import JsonLdBlogPost from "src/json-ld/JsonLdBlogPost.astro";
 
-const blogEntries = await getCollection('blog');
-type Props = CollectionEntry<'blog'>;
+type Props = { post: CollectionEntry<'blog'> };
 
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  const postPaths = posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+
+  return [...postPaths] ;
+}) satisfies GetStaticPaths;
+
+const posts = await getCollection('blog');
 const { slug } = Astro.params;
-const post = blogEntries.find((post) => post.slug === slug);
+const post = posts.find((post) => post.slug === slug);
 if (!post) return Astro.redirect("/404");
 
 const { Content } = await post.render();
 ---
 
-<BlogPostLayout frontmatter={{...post.data}}>
+<BlogPostLayout frontmatter={{ ...post.data}}>
+  <JsonLdBlogPost slug={slug} data={{...post.data }} articleBody={post.body} />
   <Content/>
 </BlogPostLayout>

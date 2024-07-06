@@ -15,6 +15,7 @@ const blogCollection = defineCollection({
 			publishDate: z.date(),
 			tags: z.array(z.string()),
 			readTime: z.string().optional(),
+			draft: z.boolean().optional(),
 		}),
 });
 

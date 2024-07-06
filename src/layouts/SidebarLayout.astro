@@ -4,7 +4,6 @@ import Header from "../components/Header.tsx";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CirclesUnionDesktop from "src/components/CirclesUnionDesktop.astro";
 import { cn } from "src/utils";
-import JsonLdPerson from "src/components/JsonLdPerson.astro";
 
 type Props = {
   title?: string;
@@ -27,5 +26,5 @@ const { title="Michał Skorus | Web Developer Portfolio", showFooter = true } = 
   }>
     <CirclesUnionDesktop />
   </div>
-  <JsonLdPerson />
+
 </BaseLayout>
