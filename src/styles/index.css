@@ -169,8 +169,10 @@
 
 .blog-post-content {
 	padding-bottom: 48px;
+
+	--size-margins: 12px;
 	> * {
-		margin-inline: 12px;
+		margin-inline: var(--size-margins);
 		margin-top: 24px;
 		margin-bottom: 24px;
 	}
@@ -211,6 +213,7 @@
 
 	img {
 		border-radius: 16px;
+		max-width: calc(100% - calc(var(--size-margins) * 2));
 	}
 
 	ul {
@@ -243,12 +246,14 @@
 		background-color: var(--color-bg-alt);
 		padding: 2px 4px;
 		border-radius: 4px;
+		transition: all var(--transition-time);
 	}
 
 	pre:has(code) {
 		padding: 16px;
 		border-radius: 16px;
 		background-color: var(--color-bg-alt) !important;
+		transition: all var(--transition-time);
 
 		.line {
 			filter: var(--filter-code);
@@ -267,8 +272,9 @@
 
 @media (min-width: 1024px) {
 	.blog-post-content {
+		--size-margins: 24px;
 		> * {
-			margin-inline: 24px;
+			margin-inline: var(--size-margins);
 			margin-top: 36px;
 			margin-bottom: 36px;
 		}

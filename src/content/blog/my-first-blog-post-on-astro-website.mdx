@@ -10,6 +10,9 @@ tags: ['Astro', 'Frontend']
 readTime: 8 min
 ---
 
+import { Image } from 'astro:assets';
+import foodPic from './emerson-vieira-meat-image.jpg';
+
 ### Creating a Blog with Astro Content Collections
 
 Starting a blog has never been easier, thanks to the intuitive design and simplicity of Astro. As someone who has dabbled in various web development frameworks, I was pleasantly surprised by how quickly I could set up everything using the Astro Content Collections. From organizing content to rendering posts, the entire process felt seamless and highly efficient.
@@ -87,17 +90,11 @@ const { Content } = await post.render();
 </BlogPostLayout>
 ```
 
-#### Seamless Integration
-
-Integrating the Astro Content Collections allowed me to manage my content effortlessly. Fetching and displaying posts was a breeze, and the API’s flexibility meant I could easily customize my blog to suit my needs. Whether it was adding new features or tweaking existing ones, everything felt intuitive and well thought out.
-
 #### Speed and Performance
 
 Another standout feature of Astro is its speed and performance. The blog runs smoothly and loads quickly, which significantly enhances the user experience. The performance benefits are particularly noticeable when navigating between posts or loading new content. This speed is a direct result of Astro’s innovative architecture, which is designed to optimize loading times and improve overall efficiency.
 
 ### Astro Islands
-
-Astro Islands is designed for building fast, modern websites. Astro allows the generation of static sites, making it easy for developers to create high-performance pages by focusing on delivering as much static content as possible and minimizing JavaScript.
 
 The "Astro Islands" concept within this framework refers to a unique approach to handling interactivity on static sites. Instead of loading a single-page application (SPA) with lots of client-side JavaScript, Astro Islands allows developers to selectively hydrate individual components of a webpage. Here’s how it works:
 
@@ -112,7 +109,16 @@ Overall, Astro Islands represents an innovative method of building high-performa
 
 Now the meat, what everyone is waiting for. Although Astro made a very good impression, I encountered a few issues.
 
-![image](./emerson-vieira-meat-image.jpg)
+<Image
+	src={foodPic}
+	alt="Img"
+	width="720"
+	widths={[720, 400]}
+	format="webp"
+	decoding="async"
+	loading="lazy"
+	fetchpriority="low"
+/>
 
 #### Sitemap
 
