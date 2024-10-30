@@ -10,10 +10,10 @@ type Props = {
 const {chipText = "", title = "", isHero=false} = Astro.props;
 ---
 
-<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-3 lg:gap-5">
   <Chip text={chipText} />
   <div class="flex flex-col gap-3">
-    {isHero ? <h1 class="text-4xl">{title}</h1> : <h2 class="text-4xl">{title}</h2>}
+    {isHero ? <h1 class="text-4xl lg:text-6xl">{title}</h1> : <h2 class="text-4xl lg:text-6xl">{title}</h2>}
     <div>
       <slot name="description"/>
     </div>

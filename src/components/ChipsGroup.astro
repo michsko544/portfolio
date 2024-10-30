@@ -13,7 +13,7 @@ const { title = "", items = []} = Astro.props;
 
 <div class={cn("w-full text-left font-sans uppercase")}>
   <h4 class="text-[16px] leading-[22px] pb-1 border-b border-border custom-transition">{title}</h4>
-  <ul class="pt-4 flex gap-2 flex-wrap">
+  <ul class="pt-4 flex gap-2 flex-wrap lg:gap-3">
     {items.map((item) => (
       <li>
         <Chip text={item} variant="outlined" />
