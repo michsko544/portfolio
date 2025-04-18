@@ -1,0 +1,255 @@
+---
+title: How I Supercharged My Docker Builds with Advanced GitLab CI Pipelines
+author: Michał Skorus
+description: A personal walkthrough of evolving a minimalist GitLab CI pipeline into a robust, multi‑job workflow—leveraging rules, extends and parallel:matrix to build and tag Docker images for multiple deployments.
+cover: ./gitlab-ci-advanced-docker-pipelines.png
+coverAlt: Developer boosting Docker builds with GitLab CI pipeline automation.
+coverAuthor: ChatGPT
+publishDate: 2025-04-18
+tags: ['GitLab CI', 'Docker', 'CI/CD', 'DevOps']
+readTime: 12 min
+---
+
+### Introduction
+
+In my daily work, I rely on Docker and [GitLab’s built‑in CI/CD](https://docs.gitlab.com/ee/ci/) to automate builds, tests, and deployments. Early on, I had a trivial pipeline that simply installed dependencies and built a single image. As my project grew—supporting both a public release and bespoke client deployments—I needed a more robust, maintainable setup.
+
+In this post, I’ll walk you through:
+
+- A minimal end‑to‑end pipeline: prebuild checks, Docker build & push
+- An expanded example that builds multiple images under different conditions
+- Refactoring into a DRY template using `extends`, `rules`, and `parallel:matrix`
+
+What started as a one-size-fits-all pipeline quickly turned into a tangled web of edge cases and custom client builds. To keep things maintainable, I needed structure, reusability, and control.
+
+### Basic Pipeline
+
+My minimal GitLab CI setup usually has two jobs:
+
+1. **Prebuild**: install dependencies, run lint and type‑checks
+2. **Docker Image**: build and push a single container image using your Dockerfile
+
+#### Prebuild job
+
+This job ensures that code compiles and passes static checks before you ever build a container. Typically it executes linters, type‑checking (`pnpm lint`, `pnpm ts-check`) and tests.
+
+Many teams also use [Husky](https://github.com/typicode/husky) to enforce Git hooks on each developer’s machine, but that requires every engineer to install and configure it locally. A CI prebuild job won’t prevent someone from committing bad code on their laptop, yet it will catch errors in an isolated runner environment. And since a branch that fails prebuild can’t be merged into the main branch, you get a reliable gate for code quality.
+
+#### Docker Image Job
+
+Here it takes application source and produce a Docker image. The `docker_image` job then uses a Dockerfile to produce a runnable container image from your source code. A Dockerfile is simply a recipe: you pick a base image (e.g. node), copy your app files in, install production dependencies, and compile or build static assets. Once built, the image can be pushed to a Container Registry—a storage service (like [GitLab’s built‑in registry](https://docs.gitlab.com/user/packages/container_registry/)) where you version and host your images. From there, any server or Kubernetes cluster with credentials can pull and run that exact image.
+
+Modern frameworks such as [Next.js](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables) or [Remix](https://remix.run/docs/en/main/guides/envvars#server-environment-variables) bake environment variables into the static bundle at build time, so you often need to pass settings (API endpoints, feature flags) into the image via `--build-arg`. These variables flow into the docker build command and become ARG values inside the Dockerfile. Injecting them early ensures that the final container has all the runtime configuration baked in.
+
+```yaml
+# .gitlab-ci.yml
+
+stages:
+  - prebuild
+  - docker
+
+cache:
+  key:
+    files:
+      - pnpm-lock.yaml
+  paths:
+    - .pnpm-store
+
+prebuild:
+  stage: prebuild
+  image: node:latest
+  before_script:
+    - corepack enable && corepack prepare pnpm@latest --activate
+    - pnpm config set store-dir .pnpm-store
+  script:
+    - pnpm install
+    - pnpm lint
+    - pnpm ts-check
+
+docker_image:
+  stage: docker
+  image: docker:stable
+  services:
+    - name: docker:dind
+      alias: docker
+  dependencies:
+    - prebuild
+  variables:
+    API_URL: 'https://api.example.com'
+    CONTAINER_IMAGE: 'registry.gitlab.com/mygroup/myproject/app'
+    IMAGE_TAG: 'latest'
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - >-
+      docker build
+      --build-arg API_URL=$API_URL
+      --cache-from $CONTAINER_IMAGE:$IMAGE_TAG
+      --tag $CONTAINER_IMAGE:$IMAGE_TAG
+      --file docker/Dockerfile .
+    - docker push $CONTAINER_IMAGE:$IMAGE_TAG
+  only:
+    - main
+```
+
+In this setup, the docker_image job builds one container variant on the `main` branch, tags it with a stable version or `latest`, and pushes it to your GitLab Container Registry—ready for deployment. In the next section, we’ll extend this to build multiple image variants under different conditions.
+
+### Advanced example: two image‑build jobs
+
+As requirements grew, the original pipeline became too rigid. I needed to support both public releases and bespoke client builds with different logic and environments. The simple two-job setup couldn’t accommodate this complexity. I was building Shopify apps and needed 2 separate docker images:
+
+- A **public** build for submission to the Shopify App Store
+- A **custom** build for select enterprise customers
+
+The custom build differs in billing logic and includes unique features, so I isolate it on its own GitLab branch. I push the public release from `main` and custom releases from an `exclusive` branch.
+
+Here’s how you can define two independent docker‑build jobs—instead of one—in your CI:
+
+```yaml
+# .gitlab-ci.yml
+
+docker_public:
+  stage: docker
+  image: docker:stable
+  services:
+    - name: docker:dind
+      alias: docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG'
+      when: always
+    - when: never
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/mygroup/shopify-plugin
+    IMAGE_TAG: $CI_COMMIT_TAG
+    API_URL: 'https://api.shopify-plugin.com'
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - >-
+      docker build
+      --build-arg API_URL=$API_URL
+      --cache-from $CONTAINER_IMAGE:$IMAGE_TAG
+      --tag $CONTAINER_IMAGE:$IMAGE_TAG
+      --file docker/Dockerfile .
+    - docker push $CONTAINER_IMAGE:$IMAGE_TAG
+
+docker_clients:
+  stage: docker
+  image: docker:stable
+  services:
+    - name: docker:dind
+      alias: docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "exclusive" && $CI_COMMIT_TAG'
+      when: always
+    - when: never
+  parallel:
+    matrix:
+      - CLIENT: exclusive-client-A
+        API_URL: 'https://api.exclusive-client-A.shopify-plugin.com'
+      - CLIENT: exclusive-client-B
+        API_URL: 'https://api.exclusive-client-B.shopify-plugin.com'
+      - CLIENT: exclusive-client-C
+        API_URL: 'https://api.exclusive-client-C.shopify-plugin.com'
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/mygroup/shopify-plugin
+    IMAGE_TAG: '${CLIENT}-${CI_COMMIT_TAG}'
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - >-
+      docker build
+      --build-arg API_URL=$API_URL
+      --cache-from $CONTAINER_IMAGE:$IMAGE_TAG
+      --tag $CONTAINER_IMAGE:$IMAGE_TAG
+      --file docker/Dockerfile .
+    - docker push $CONTAINER_IMAGE:$IMAGE_TAG
+```
+
+At this point I’ve used a few advanced GitLab CI keywords that may be unfamiliar:
+
+- `rules` - Replace `only/except` with `rules` to run jobs based on complex conditions—here, matching both branch name and the presence of a tag.
+- `parallel:matrix` - Automatically generates one job for each entry in the matrix. We inject a different `CLIENT` value and `API_URL` for each customer build. [[Docs](https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix)]
+
+These directives let you control exactly when each job runs and effortlessly scale builds across variants.
+
+#### How it works:
+
+- **Public job** runs only when you tag a commit on `main` (e.g. `git tag 1.0.0 && git push --tags`) and pushes `shopify-plugin:1.0.0`.
+- **Clients job** runs when you tag on `exclusive` and spins up one task per entry in the `parallel:matrix`, producing `shopify-plugin:exclusive-client-A-1.0.0`, `shopify-plugin:exclusive-client-B-1.0.0`, `shopify-plugin:exclusive-client-C-1.0.0`, etc.
+
+This setup gives me clear separation and control over public vs. custom releases, without duplicating your prebuild logic. Next, I’ll refactor these jobs into a shared template for DRY maintenance.
+
+### Refactoring with a Template
+
+After setting up two nearly identical jobs (`docker_public` and `docker_clients`), I felt the pain of duplication. Every time I tweaked the login, the build-args, or the push commands, I had to update **both** jobs. To keep my CI config DRY, I extracted the shared parts into a hidden template job and then had each real job **extend** it.
+
+```yaml
+# .gitlab-ci.yml
+
+# 1) Hidden template—never runs on its own
+.docker_build_template:
+  stage: docker
+  image: docker:stable
+  services:
+    - name: docker:dind
+      alias: docker
+  dependencies:
+    - prebuild
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker pull  "$CONTAINER_IMAGE:$IMAGE_TAG" || true
+    - >-
+      docker build
+      --build-arg API_URL=$API_URL
+      --cache-from $CONTAINER_IMAGE:$IMAGE_TAG
+      --tag $CONTAINER_IMAGE:$IMAGE_TAG
+      --file docker/Dockerfile .
+    - docker push "$CONTAINER_IMAGE:$IMAGE_TAG"
+
+# 2) Public build reuses the template
+docker_public:
+  extends: .docker_build_template
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG'
+      when: always
+    - when: never
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/mygroup/shopify-plugin
+    IMAGE_TAG: $CI_COMMIT_TAG
+    API_URL: https://api.shopify-plugin.com
+
+# 3) Client builds also reuse the same template
+docker_clients:
+  extends: .docker_build_template
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "exclusive" && $CI_COMMIT_TAG'
+      when: always
+    - when: never
+  parallel:
+    matrix:
+      - CLIENT: exclusive-client-A
+        API_URL: 'https://api.exclusive-client-A.shopify-plugin.com'
+      - CLIENT: exclusive-client-B
+        API_URL: 'https://api.exclusive-client-B.shopify-plugin.com'
+      - CLIENT: exclusive-client-C
+        API_URL: 'https://api.exclusive-client-C.shopify-plugin.com'
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/mygroup/shopify-plugin
+    IMAGE_TAG: '${CLIENT}-${CI_COMMIT_TAG}'
+```
+
+Why `extends` instead of YAML anchors?
+
+- **YAML anchors** (`&alias` + `<<: *alias`) simply copy a block of text where you reference it. If you change the anchor, you must ensure the structure still fits every location you imported it. [[Docs](https://yaml.org/spec/1.2/spec.html#id2765878)]
+- **Gitlab CI `extends`** is CI‑aware inheritance: it knows how to merge arrays (`script`, `services`) and override simple keys (`image`, `variables`, `rules`) without conflict. You get a clear separation between your template logic and each job’s custom settings. [[Docs](https://docs.gitlab.com/ee/ci/yaml/#extends)]
+
+By adopting `extends`, I now maintain login steps, cache settings, and build commands in one place. Adding or tweaking a build‑arg only happens in `.docker_build_template`, and each job simply overrides its own `variables` or `rules`. This makes my CI/CD both scalable and easy to understand.
+
+### Conclusion
+
+What began as a simple pipeline for one image evolved into a flexible build system tailored for real-world demands. With GitLab CI’s `rules`, `parallel:matrix`, and `extends`, I built a workflow that:
+
+- Builds distinct images based on branch and tag context
+- Scales horizontally to support multiple client variants
+- Avoids duplication by centralizing logic in a shared template
+- Gives precise control over when and how jobs execute
+
+This refactor has made my CI/CD faster to maintain, easier to understand, and much more scalable. If you're juggling multiple image builds or starting to repeat yourself in .gitlab-ci.yml, it’s worth taking the time to level up your pipeline structure.
