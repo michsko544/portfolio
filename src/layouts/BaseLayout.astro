@@ -64,7 +64,7 @@ const {
       <meta property="og:image:type" content={`image/${ogFormat}`} />
       <meta property="og:image:width" content={ogWidth.toString()} />
       <meta property="og:image:height" content={ogHeight.toString()} />
-      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
@@ -72,8 +72,8 @@ const {
       <meta name="twitter:creator" content="@michsko544" />
     }
     {type === 'article' &&
-      <meta property="article:published_time" content={format(publishDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
-      <meta property="article:modified_time" content={format(modifiedDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
+      <meta property="article:published_time" content={format(publishDate, "yyyy-MM-dd'T'HH:mm:ssXXX")} />
+      <meta property="article:modified_time" content={format(modifiedDate, "yyyy-MM-dd'T'HH:mm:ssXXX")} />
       <meta property="article:author" content={author} />
     }
     <link rel="canonical" href={canonicalURL} />
