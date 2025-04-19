@@ -50,34 +50,34 @@ const {
 		<meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content="en" />
-    <meta property="og:type" content={type}>
+    <meta property="og:url" content={canonicalURL}>
     {ogImage &&
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:image:secure_url" content={ogImage} />
-      <meta property="og:image:alt" content={ogAltText} />
-      <meta property="og:image:type" content={`image/${ogFormat}`} />
-      <meta property="og:image:width" content={ogWidth.toString()} />
-      <meta property="og:image:height" content={ogHeight.toString()} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-      <meta name="twitter:site" content="@michsko544" />
-      <meta name="twitter:creator" content="@michsko544" />
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:creator" content="@michsko544">
+      <meta name="twitter:site" content="@michsko544">
+      <meta property="og:image" content={ogImage}>
+      <meta property="og:image:secure_url" content={ogImage}>
+      <meta property="og:image:alt" content={ogAltText}>
+      <meta property="og:image:type" content={`image/${ogFormat}`}>
+      <meta property="og:image:width" content={ogWidth.toString()}>
+      <meta property="og:image:height" content={ogHeight.toString()}>
+      <meta name="twitter:title" content={title}>
+      <meta name="twitter:description" content={description}>
+      <meta name="twitter:image" content={ogImage}>
     }
+    <meta name="description" content={description}>
+    <meta name="author" content={author}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:locale" content="en">
+    <meta property="og:type" content={type}>
     {type === 'article' &&
-      <meta property="article:published_time" content={format(publishDate, "yyyy-MM-dd'T'HH:mm:ssXXX")} />
-      <meta property="article:modified_time" content={format(modifiedDate, "yyyy-MM-dd'T'HH:mm:ssXXX")} />
-      <meta property="article:author" content={author} />
+      <meta property="article:published_time" content={format(publishDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
+      <meta property="article:modified_time" content={format(modifiedDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
+      <meta property="article:author" content={author}>
     }
-    <link rel="canonical" href={canonicalURL} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="canonical" href={canonicalURL}>
+    <link rel="sitemap" href="/sitemap-index.xml">
     <script is:inline>
       var isDarkMode = function() {
         return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
