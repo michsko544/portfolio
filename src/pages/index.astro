@@ -7,7 +7,7 @@ import ContactSection from "src/sections/ContactSection.astro"
 import ProjectsSection from "src/sections/ProjectsSection.astro"
 ---
 
-<SidebarLayout>
+<SidebarLayout canonicalURL={Astro.site ? Astro.site.toString() : "https://michalskorus.com"}>
 		<HeroSection />
 		<ProjectsSection />
 		<AboutSection />

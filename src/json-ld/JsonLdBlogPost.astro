@@ -13,7 +13,7 @@ const breadcrumbsSchema: BlogPosting & { "@context": "https://schema.org" } = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": data.title,
-  "image": `https://michalskorus.pl${image.src}`,
+  "image": new URL(image.src, Astro.site).toString(),
   "editor": "Michał Skorus",
   "genre": "Web development",
   "keywords": data.tags.join(" "),

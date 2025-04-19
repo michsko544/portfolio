@@ -3,6 +3,6 @@ import BlogArchiveSection from "src/sections/BlogArchiveSection.astro";
 import SidebarLayout from "src/layouts/SidebarLayout.astro";
 ---
 
-<SidebarLayout title="Blog | Michał Skorus" showFooter={false}>
+<SidebarLayout title="Blog | Michał Skorus" showFooter={false} canonicalURL={new URL(`/blog`, Astro.site).toString()}>
   <BlogArchiveSection />
 </SidebarLayout>
