@@ -26,7 +26,7 @@ const {
   title = "Michał Skorus",
   description="Discover the portfolio of Michał Skorus, a web developer who combines creativity with technology to create performant, modern and responsive websites. Explore projects that stand out for their aesthetics, functionality, and innovative solutions. Get in touch to learn more!",
   canonicalURL,
-  type,
+  type = 'website',
   author = "Michał Skorus",
   publishDate = new Date(),
   modifiedDate = new Date(),
@@ -56,6 +56,7 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:locale" content="en" />
+    <meta property="og:type" content={type}>
     {ogImage &&
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:secure_url" content={ogImage} />
@@ -67,9 +68,10 @@ const {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:site" content="@michsko544" />
+      <meta name="twitter:creator" content="@michsko544" />
     }
     {type === 'article' &&
-      <meta property="og:type" content={type}>
       <meta property="article:published_time" content={format(publishDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
       <meta property="article:modified_time" content={format(modifiedDate, "yyyy-MM-dd'T'HH:mm:ssXXX")}>
       <meta property="article:author" content={author} />

@@ -13,7 +13,7 @@ type Props = { frontmatter: CollectionEntry<'blog'>['data'] };
 
 const { frontmatter } = Astro.props;
 const { slug = "" } = Astro.params;
-const cover = await getImage({src: frontmatter.cover});
+const cover = await getImage({src: frontmatter.cover, width: 1200, height: 630});
 ---
 <BaseLayout
   title={`${frontmatter.title} | Michał Skorus`}
@@ -24,8 +24,8 @@ const cover = await getImage({src: frontmatter.cover});
   openGraph={{
     image: new URL(cover.src, Astro.site).toString(),
     altText: frontmatter.coverAlt,
-    width: frontmatter.cover.width,
-    height: frontmatter.cover.height,
+    width: cover.options.width,
+    height: cover.options.height,
     format: frontmatter.cover.format,
   }}
 >
