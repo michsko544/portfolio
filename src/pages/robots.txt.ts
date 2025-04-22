@@ -1,21 +1,28 @@
 import type { APIRoute } from 'astro';
 
+const disallowedPaths = ['/~partytown/*'];
+
 const robotsTxt = `
 User-agent: *
-Disallow:
-
-# Twitter preview bot
-User-agent: Twitterbot
 Allow: /
+${disallowedPaths.map(path => `Disallow: ${path}`).join('\n')}
+Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
 
-# Facebook scraper
-User-agent: FacebookExternalHit
-Allow: /
+# Google adsbot ignores robots.txt unless specifically named!
+User-agent: adsbot-google
+${disallowedPaths.map(path => `Disallow: ${path}`).join('\n')}
 
-# LinkedIn bot
-User-agent: LinkedInBot
-Allow: /
+User-agent: Nutch
+Disallow: /
 
+User-agent: AhrefsBot
+Crawl-delay: 10
+${disallowedPaths.map(path => `Disallow: ${path}`).join('\n')}
+Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
+
+User-agent: AhrefsSiteAudit
+Crawl-delay: 10
+${disallowedPaths.map(path => `Disallow: ${path}`).join('\n')}
 Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
 `.trim();
 
