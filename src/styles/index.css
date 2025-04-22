@@ -157,6 +157,11 @@
 			text-decoration: underline;
 		}
 	}
+
+	li {
+		font-weight: 500;
+		font-size: 16px;
+	}
 }
 
 .custom-transition {
@@ -272,6 +277,10 @@
 
 @media (min-width: 1024px) {
 	p {
+		font-size: 20px;
+	}
+
+	li {
 		font-size: 20px;
 	}
 	.blog-post-content {

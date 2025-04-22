@@ -28,13 +28,13 @@ What started as a one-size-fits-all pipeline quickly turned into a tangled web o
 My minimal GitLab CI setup usually has two jobs:
 
 1. **Prebuild**: install dependencies, run lint and type‑checks
-2. **Docker Image**: build and push a single container image using your Dockerfile
+2. **Docker Image**: build and push a single container image using Dockerfile
 
 #### Prebuild job
 
 This job ensures that code compiles and passes static checks before you ever build a container. Typically it executes linters, type‑checking (`pnpm lint`, `pnpm ts-check`) and tests.
 
-Many teams also use [Husky](https://github.com/typicode/husky) to enforce Git hooks on each developer’s machine, but that requires every engineer to install and configure it locally. A CI prebuild job won’t prevent someone from committing bad code on their laptop, yet it will catch errors in an isolated runner environment. And since a branch that fails prebuild can’t be merged into the main branch, you get a reliable gate for code quality.
+> Many teams also use [Husky](https://github.com/typicode/husky) to enforce Git hooks on each developer’s machine, but that requires every engineer to install and configure it locally. A CI prebuild job won’t prevent someone from committing bad code on their laptop, yet it will catch errors in an isolated runner environment. And since a branch that fails prebuild can’t be merged into the main branch, you get a reliable gate for code quality.
 
 #### Docker Image Job
 
@@ -92,7 +92,7 @@ docker_image:
     - main
 ```
 
-In this setup, the docker_image job builds one container variant on the `main` branch, tags it with a stable version or `latest`, and pushes it to your GitLab Container Registry—ready for deployment. In the next section, we’ll extend this to build multiple image variants under different conditions.
+In this setup, the docker_image job builds one container variant on the `main` branch, tags it with `latest`, and pushes it to your GitLab Container Registry—ready for deployment. In the next section, we’ll extend this to build multiple image variants under different conditions.
 
 ### Advanced example: two image‑build jobs
 
@@ -253,4 +253,4 @@ What began as a simple pipeline for one image evolved into a flexible build syst
 - Avoids duplication by centralizing logic in a shared template
 - Gives precise control over when and how jobs execute
 
-This refactor has made my CI/CD faster to maintain, easier to understand, and much more scalable. If you're juggling multiple image builds or starting to repeat yourself in .gitlab-ci.yml, it’s worth taking the time to level up your pipeline structure.
+This refactor has made my CI/CD faster to maintain, easier to understand, and much more scalable. If you're juggling multiple image builds or starting to repeat yourself in `.gitlab-ci.yml`, it’s worth taking the time to level up your pipeline structure.
