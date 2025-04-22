@@ -11,6 +11,9 @@ tags: ['GitLab CI', 'Docker', 'CI/CD', 'DevOps']
 readTime: 12 min
 ---
 
+import { Image } from 'astro:assets';
+import catComputer from './angry-cat-using-computer.jpg';
+
 ### Introduction
 
 In my daily work, I rely on Docker and [GitLab’s built‑in CI/CD](https://docs.gitlab.com/ee/ci/) to automate builds, tests, and deployments. Early on, I had a trivial pipeline that simply installed dependencies and built a single image. As my project grew—supporting both a public release and bespoke client deployments—I needed a more robust, maintainable setup.
@@ -170,6 +173,24 @@ At this point I’ve used a few advanced GitLab CI keywords that may be unfamili
 - `parallel:matrix` - Automatically generates one job for each entry in the matrix. We inject a different `CLIENT` value and `API_URL` for each customer build. [[Docs](https://docs.gitlab.com/ee/ci/yaml/#parallelmatrix)]
 
 These directives let you control exactly when each job runs and effortlessly scale builds across variants.
+
+<figure>
+	<Image
+		src={catComputer}
+		alt="Cat using computer"
+		width="720"
+		widths={[720, 400]}
+		format="webp"
+		decoding="async"
+		loading="lazy"
+		fetchpriority="low"
+	/>
+	<figcaption>
+		<p>
+			<i>Me trying to debug matrix builds</i> 🙈
+		</p>
+	</figcaption>
+</figure>
 
 #### How it works:
 

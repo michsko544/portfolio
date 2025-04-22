@@ -221,6 +221,10 @@
 		max-width: calc(100% - calc(var(--size-margins) * 2));
 	}
 
+	figure img {
+		max-width: 100%;
+	}
+
 	ul {
 		list-style: disc;
 		list-style-position: inside;
