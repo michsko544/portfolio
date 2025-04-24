@@ -47,7 +47,7 @@ export default defineConfig({
 					return item;
 				}
 
-				if (item.url === 'https://www.michalskorus.pl/blog/') {
+				if (item.url === 'https://www.michalskorus.pl/blog') {
 					item.changefreq = 'daily';
 					item.lastmod = new Date();
 					item.priority = 0.8;

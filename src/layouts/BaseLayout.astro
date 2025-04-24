@@ -4,6 +4,8 @@ import "../styles/index.css";
 import HCaptcha from "src/components/HCaptcha.astro";
 import CookieConsent from "src/components/CookieConsent.tsx";
 import { format } from "date-fns";
+import defaultOgImage from "src/assets/images/default-og-image.png";
+import { getImage } from "astro:assets";
 
 type Props = {
   title?: string;
@@ -33,6 +35,15 @@ const {
   openGraph: {image: ogImage = null, altText: ogAltText="", width: ogWidth = 1200, height: ogHeight = 630, format: ogFormat = "jpg"} = {}
 } = Astro.props;
 
+const defaultImage = await getImage({src: defaultOgImage, width: 1200, height: 630});
+
+const openGraph = {
+  src: ogImage ?? defaultImage.src,
+  alt: ogAltText ?? description,
+  width: ogWidth ?? defaultImage.attributes.width,
+  height: ogHeight ?? defaultImage.attributes.height,
+  format: ogFormat ?? defaultOgImage.format,
+}
 ---
 
 <html lang="en">
@@ -51,20 +62,18 @@ const {
     <meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
     <meta property="og:url" content={canonicalURL}>
-    {ogImage &&
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:creator" content="@michsko544">
-      <meta name="twitter:site" content="@michsko544">
-      <meta property="og:image" content={ogImage}>
-      <meta property="og:image:secure_url" content={ogImage}>
-      <meta property="og:image:alt" content={ogAltText}>
-      <meta property="og:image:type" content={`image/${ogFormat}`}>
-      <meta property="og:image:width" content={ogWidth.toString()}>
-      <meta property="og:image:height" content={ogHeight.toString()}>
-      <meta name="twitter:title" content={title}>
-      <meta name="twitter:description" content={description}>
-      <meta name="twitter:image" content={ogImage}>
-    }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@michsko544">
+    <meta name="twitter:site" content="@michsko544">
+    <meta property="og:image" content={openGraph.src}>
+    <meta property="og:image:secure_url" content={openGraph.src}>
+    <meta property="og:image:alt" content={openGraph.alt}>
+    <meta property="og:image:type" content={`image/${openGraph.format}`}>
+    <meta property="og:image:width" content={openGraph.width.toString()}>
+    <meta property="og:image:height" content={openGraph.height.toString()}>
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={openGraph.src}>
     <meta name="description" content={description}>
     <meta name="author" content={author}>
     <meta property="og:title" content={title}>
