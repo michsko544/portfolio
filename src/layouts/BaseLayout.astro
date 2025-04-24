@@ -38,7 +38,7 @@ const {
 const defaultImage = await getImage({src: defaultOgImage, width: 1200, height: 630});
 
 const openGraph = {
-  src: ogImage ?? defaultImage.src,
+  src: ogImage ?? new URL(defaultImage.src, Astro.site).toString(),
   alt: ogAltText ?? description,
   width: ogWidth ?? defaultImage.attributes.width,
   height: ogHeight ?? defaultImage.attributes.height,
