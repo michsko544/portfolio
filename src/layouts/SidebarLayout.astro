@@ -7,14 +7,15 @@ import { cn } from "src/utils";
 
 type Props = {
   title?: string;
+  description?: string;
   showFooter?: boolean;
   canonicalURL: string;
 };
 
-const { title="Michał Skorus | Web Developer Portfolio", showFooter = true, canonicalURL } = Astro.props;
+const { title="Michał Skorus | Web Developer Portfolio", description, showFooter = true, canonicalURL } = Astro.props;
 ---
 
-<BaseLayout title={title} canonicalURL={canonicalURL}>
+<BaseLayout title={title} description={description} canonicalURL={canonicalURL}>
   <Header client:only="react" />
   <main class="lg:pl-[30%]">
     <slot/>

@@ -12,6 +12,7 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"strictNullChecks": true,
-		"allowJs": true
+		"allowJs": true,
+		"skipLibCheck": true
 	}
 }

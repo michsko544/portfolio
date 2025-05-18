@@ -128,6 +128,24 @@ export default function Header() {
 								</li>
 								<li>
 									<a
+										href="/#projects"
+										onClick={onMenuClick}
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										PORTFOLIO
+									</a>
+								</li>
+								<li>
+									<a
+										href="/blog"
+										onClick={onMenuClick}
+										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+									>
+										BLOG
+									</a>
+								</li>
+								<li>
+									<a
 										href="/#about"
 										onClick={onMenuClick}
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
@@ -142,15 +160,6 @@ export default function Header() {
 										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
 									>
 										SKILLS
-									</a>
-								</li>
-								<li>
-									<a
-										href="/#projects"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
-										PORTFOLIO
 									</a>
 								</li>
 								<li>

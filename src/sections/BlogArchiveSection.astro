@@ -19,8 +19,8 @@ blogEntries.forEach((entry) => {
 
 <section class="contentSection lg:pt-[calc(calc(100vh_-_420px)_/_2)]">
   <div class="flex flex-col gap-6 w-full lg:gap-12 ">
-    <PageHeader title={pageTitle} chipText={chipText}>
-      <p slot="description">Welcome to my blog! Discover insights, tutorials, and updates on web development. Join me as I explore new technologies, share experiences, and discuss programming topics.</p>
+    <PageHeader title={pageTitle} chipText={chipText} isHero={true}>
+      <p slot="description">Welcome to blog of Michał Skorus – a web developer passionate about modern, responsive web development. Here I share my experiences, discuss programming challenges, and explore the latest in web technologies to help fellow developers and clients alike.</p>
     </PageHeader>
     {tags.size > 0 && <div class="flex w-full lg:max-w-[50%] lg:ml-auto lg:justify-end">
       <div class="flex flex-col gap-2">
