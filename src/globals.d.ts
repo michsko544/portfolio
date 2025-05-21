@@ -5,4 +5,7 @@ interface Window {
 	hcaptcha: { execute: () => void };
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	dataLayer: { push: (args: any) => void };
+	posthog: {
+		init(token: string, options: { api_host: string; person_profiles: string }): void;
+	};
 }

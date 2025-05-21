@@ -6,6 +6,7 @@ import CookieConsent from "src/components/CookieConsent.tsx";
 import { format } from "date-fns";
 import defaultOgImage from "src/assets/default-og-image.png";
 import { getImage } from "astro:assets";
+import PosthogAnalytics from "src/components/PosthogAnalytics.astro";
 
 type Props = {
   title?: string;
@@ -102,6 +103,9 @@ const openGraph = {
     </script>
     {import.meta.env.PROD && (
       <GoogleAnalytics />
+    )}
+    {import.meta.env.PROD && (
+      <PosthogAnalytics />
     )}
     <HCaptcha />
 	</head>

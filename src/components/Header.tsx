@@ -180,12 +180,19 @@ export default function Header() {
 									target="_blank"
 									rel="noopener"
 									className="block w-8 h-8"
+									title="LinkedIn Profile of Michał Skorus"
 								>
 									<IconLinkedin />
 								</a>
 							</li>
 							<li>
-								<a href="https://github.com/michsko544" target="_blank" rel="noopener" className="block w-8 h-8">
+								<a
+									href="https://github.com/michsko544"
+									target="_blank"
+									rel="noopener"
+									className="block w-8 h-8"
+									title="GitHub Profile of Michał Skorus"
+								>
 									<IconGithub />
 								</a>
 							</li>
@@ -195,6 +202,7 @@ export default function Header() {
 									target="_blank"
 									rel="noopener"
 									className="block w-8 h-8"
+									title="StackOverflow Profile of Michał Skorus"
 								>
 									<IconStackoverflow />
 								</a>
