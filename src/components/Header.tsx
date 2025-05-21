@@ -68,6 +68,22 @@ function IconStackoverflow() {
 	);
 }
 
+function NavLink({ href, children, closeMenu }: { href: string; children: React.ReactNode; closeMenu: () => void }) {
+	const onMenuClick = () => {
+		window.posthog.capture('clicked nav link', { targetUrl: href });
+		closeMenu();
+	};
+	return (
+		<a
+			href={href}
+			onClick={onMenuClick}
+			className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+		>
+			{children}
+		</a>
+	);
+}
+
 export default function Header() {
 	const [isMenuOpened, setIsMenuOpened] = useState(false);
 
@@ -82,10 +98,6 @@ export default function Header() {
 	const openMenu = () => {
 		document.body.classList.add('menu-opened');
 		setIsMenuOpened(true);
-	};
-
-	const onMenuClick = () => {
-		closeMenu();
 	};
 
 	return (
@@ -118,58 +130,34 @@ export default function Header() {
 						<nav>
 							<ul className="flex flex-col gap-3">
 								<li>
-									<a
-										href="/#home"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/#home" closeMenu={closeMenu}>
 										HOME
-									</a>
+									</NavLink>
 								</li>
 								<li>
-									<a
-										href="/#projects"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/#projects" closeMenu={closeMenu}>
 										PORTFOLIO
-									</a>
+									</NavLink>
 								</li>
 								<li>
-									<a
-										href="/blog"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/blog" closeMenu={closeMenu}>
 										BLOG
-									</a>
+									</NavLink>
 								</li>
 								<li>
-									<a
-										href="/#about"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/#about" closeMenu={closeMenu}>
 										ABOUT
-									</a>
+									</NavLink>
 								</li>
 								<li>
-									<a
-										href="/#technologies"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/#technologies" closeMenu={closeMenu}>
 										SKILLS
-									</a>
+									</NavLink>
 								</li>
 								<li>
-									<a
-										href="/#contact"
-										onClick={onMenuClick}
-										className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
-									>
+									<NavLink href="/#contact" closeMenu={closeMenu}>
 										CONTACT
-									</a>
+									</NavLink>
 								</li>
 							</ul>
 						</nav>

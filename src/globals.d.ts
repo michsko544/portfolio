@@ -7,5 +7,6 @@ interface Window {
 	dataLayer: { push: (args: any) => void };
 	posthog: {
 		init(token: string, options: { api_host: string; person_profiles: string }): void;
+		capture(event: string, properties?: Record<string, unknown>): void;
 	};
 }
