@@ -1,0 +1,260 @@
+---
+title: 'pnpm vs npm: 70% Faster Installs That Will Change Your Workflow'
+author: Michał Skorus
+description: 'Compare pnpm vs npm performance: 70% faster installs, 48% faster CI builds, and massive disk space savings. Complete migration guide with real benchmarks.'
+cover: ./pnpm-better-than-npm.png
+coverAlt: pnpm is greater than npm because of performance
+coverAuthor: Michał Skorus
+publishDate: 2025-10-07
+tags: ['Package Managers', 'CI/CD', 'Frontend']
+readTime: 13 min
+---
+
+## The Developer Reality Check
+
+Does your team have multiple similar projects where running `npm install` means it's coffee break time? Is your CI/CD pipeline generating costs and you're looking for ways to save money?
+
+If you answered yes to either question, keep reading.
+
+Most developers are stuck using npm while a mature, battle-tested solution could cut their installation times by 70% and reduce CI costs significantly. That solution is [pnpm](https://pnpm.io/) – and no, it's not "just another [Yarn](https://yarnpkg.com/)."
+
+## Your Daily Pain Points, Measured: pnpm Performance Benchmarks
+
+Let's put some numbers to those frustrations. Here's what the performance difference looks like in real scenarios:
+
+**Developer Scenario** (with cache, with lockfile): When a repo is fetched by a developer and installation is first run
+
+- `npm`: 9.2 seconds
+- `pnpm`: 2.5 seconds
+
+**CI Pipeline Scenario** (with lockfile): When an installation runs on a CI server
+
+- `npm`: 12.6 seconds
+- `pnpm`: 6.5 seconds per build
+
+**The Scale Effect**:
+
+For CI build optimization, a team building a large application with 10 daily deployments across 3 environments (dev/staging/prod), that's 30 CI builds daily. With npm, you're spending 378 seconds (6.3 minutes) on package installation. With pnpm, that drops to 195 seconds (3.25 minutes) – saving over 3 minutes of compute time daily.
+
+Scale that to a month: npm uses 31.5 hours of CI time just for package installation, while pnpm uses only 16.25 hours. That's 15+ hours of compute savings monthly, which translates to real cost reductions.
+
+For developers, 9.2s vs 2.5s is the difference between losing your mental context and staying focused when you switch branches or pull updates.
+
+| Scenario                | npm   | pnpm        |
+| ----------------------- | ----- | ----------- |
+| Developer first install | 9.2s  | 2.5s (-73%) |
+| CI server build         | 12.6s | 6.5s (-48%) |
+
+_Source: [pnpm benchmarks](https://pnpm.io/benchmarks)_
+
+## This Isn't Just Another Yarn
+
+"Oh great, another package manager. Let me guess, it's slightly faster and has a different lockfile format?"
+
+If that's your reaction, you're not alone. Many developers dismiss pnpm as "just another Yarn" – another attempt to reinvent npm with marginal improvements. But both [Yarn Berry (with PnP)](https://yarnpkg.com/features/pnp) and pnpm represent fundamental departures from npm's approach, each solving dependency management problems in different ways.
+
+**Three Different Philosophies**:
+
+**npm**: Traditional flat node_modules structure. Simple, well-understood, but inefficient.
+
+**Yarn Berry (PnP)**: Eliminates node_modules entirely, stores packages in zip files with runtime resolution via pnp.cjs. Extremely fast and space-efficient, but requires ecosystem adaptation.
+
+**pnpm**: Uses symlinks to create a centralized store while maintaining a real node_modules structure. Balances efficiency with full Node.js compatibility.
+
+**Where pnpm Stands Out**:
+
+- **Full Node.js Compatibility**: Works with every tool without configuration or patches
+- **Transparent Debugging**: Dependencies are physical files, not hidden in zip archives
+- **Phantom Dependency Prevention**: Strict node_modules prevents accessing unlisted dependencies
+- **Global Store Efficiency**: One copy of each package version across all projects
+- **Ecosystem Neutrality**: Doesn't require runtime hooks or ecosystem changes
+- **Conceptual Simplicity**: The symlink approach is intuitive – packages stored once, linked everywhere. Easy to understand and reason about.
+
+**The Trade-offs**: Yarn Berry can be faster in some scenarios and uses less disk space, but requires tools to support PnP mode and its zip-based approach can be complex to debug. pnpm sacrifices some theoretical efficiency for universal compatibility and conceptual clarity – you get most of the benefits without breaking existing workflows or mental models.
+
+## The Technology Behind the Magic: pnpm Symlinks Explained
+
+Here's how pnpm actually works under the hood, and why it changes everything about dependency management.
+
+**Understanding Symlinks and Hard Links**
+
+Before diving into pnpm's architecture, let's understand the core concepts:
+
+- **Symlink (symbolic link)**: Think of it as a shortcut or pointer to another file/folder on your computer. The actual files stay in one place, but you can access them from multiple locations.
+- **Hard link**: Multiple references to the same physical file on disk. Unlike symlinks, all references are equal – there's no "original" and "copy."
+
+**Centralized Package Storage (pnpm store)**
+
+Instead of duplicating packages across every project, pnpm stores each package version exactly [once in a global store](https://stackoverflow.com/questions/55403775/how-to-get-pnpm-store-directory). When you install a package, pnpm creates hard links from this central location to your project.
+
+```
+# Traditional npm approach:
+project-1/node_modules/react/  (50MB of React files)
+project-2/node_modules/react/  (50MB of the SAME React files)
+project-3/node_modules/react/  (50MB of the SAME React files)
+Total: 150MB for the same package!
+
+# pnpm approach:
+/some-os-path/pnpm/store/react@18.2.0/     (50MB - stored once)
+project-1/node_modules/react/   (symlink → points to store)
+project-2/node_modules/react/   (symlink → points to store)
+project-3/node_modules/react/   (symlink → points to store)
+Total: 50MB, no matter how many projects use React!
+```
+
+**The Magic**: If you have 10 projects using React 18.2.0, the files exist on disk exactly once, not 10 times. Massive disk space savings when you work on multiple projects.
+
+**Strict `node_modules` Structure**
+
+Unlike npm's flat structure, pnpm only puts your direct dependencies in the top-level `node_modules`. Transitive dependencies are stored in the nested `.pnpm` directory and accessed through symlinks.
+
+```bash
+# npm structure (flat - can access anything)
+node_modules/
+├── react/
+├── react-dom/
+├── scheduler/        # transitive dependency of react
+└── loose-envify/     # you can import this even if not in package.json
+
+# pnpm structure (strict - only direct dependencies visible)
+node_modules/
+├── react/            # symlink to .pnpm/react@18.2.0/node_modules/react
+├── react-dom/        # symlink to .pnpm/react-dom@18.2.0/node_modules/react-dom
+└── .pnpm/
+    ├── react@18.2.0/node_modules/react/
+    ├── scheduler@0.23.0/node_modules/scheduler/
+    └── loose-envify@1.4.0/node_modules/loose-envify/
+```
+
+**Why This Matters**: This prevents "phantom dependencies" – bugs where your code works locally because npm flattened a transitive dependency to the top level, but breaks in production or on teammates' machines.
+
+**The Results**:
+
+- **Disk space savings**: Across multiple projects, you save gigabytes of storage
+- **Faster installations**: No need to copy the same files multiple times
+- **More reliable builds**: Strict dependency resolution catches issues npm misses
+- **Consistent environments**: Same dependency tree in development and production
+
+## pnpm Is Production-Ready
+
+Still worried about adopting a "newer" package manager? Major frameworks and tools already rely on pnpm as their default choice.
+
+**Framework Integration**:
+
+[Vue.js](https://vuejs.org/) development uses pnpm by default. [SvelteKit](https://svelte.dev/docs/kit/introduction) powers its build toolchain with pnpm. [Vite](https://vite.dev/), the fastest build tool in the ecosystem, uses pnpm for package management. Shopify's Hydrogen templates come with pnpm configuration out of the box.
+
+**Why They Chose pnpm**: These aren't experimental decisions. When performance, reliability, and developer experience matter most, teams consistently choose pnpm over alternatives.
+
+**Community Momentum** ([2024 State of JS survey](https://2024.stateofjs.com/en-US/libraries/monorepo_tools/)):
+
+- **93% satisfaction rate** among developers who tried pnpm
+- **42% already using it** in production
+- **85% awareness** in the developer community
+- **62% interest** from developers who haven't tried it yet
+
+That's not early-adopter territory – that's mainstream adoption.
+
+**Real-World Reliability**: I've been using pnpm in practically all commercial projects since 2022, and it has never let me down. Zero compatibility issues, consistent performance, and seamless team adoption across different project types.
+
+**Enterprise Features**: Beyond speed, pnpm includes catalogues for dependency version management and workspace configurations that make it suitable for large-scale projects requiring governance and consistency.
+
+The evidence is clear: pnpm has moved from "interesting alternative" to "production standard" for performance-conscious teams.
+
+## Addressing Developer Concerns
+
+Let's tackle the practical worries that prevent teams from making the switch.
+
+**"What if I have multiple projects with different package managers?"**
+
+[Corepack](https://github.com/nodejs/corepack) solves version management elegantly. It automatically detects and uses the correct package manager version specified in each project's `package.json`:
+
+```bash
+# For new projects, install the correct version first
+corepack install
+
+# Then enable automatic version management
+corepack enable
+
+# Now each project uses its specified package manager automatically
+```
+
+Corepack reads the `packageManager` field and handles switching between npm, yarn, and pnpm versions without any manual intervention.
+
+**"How do I enforce pnpm usage in my team/repo?"**
+
+Add the `packageManager` field to your `package.json`:
+
+```json
+{
+	"packageManager": "pnpm@10.18.1"
+}
+```
+
+With Corepack enabled, the project automatically uses the specified pnpm version, and team members can't accidentally use the wrong package manager.
+
+**"What about CI/CD compatibility?"**
+
+Most CI providers work seamlessly with Corepack:
+
+```yaml
+# [GitHub Actions](https://github.com/features/actions)
+- run: npm install -g corepack@latest
+- run: corepack enable
+- run: pnpm install
+```
+
+**"Will my existing tools work?"**
+
+Yes. pnpm creates a real `node_modules` structure, so every tool that works with npm works with pnpm. No special configuration needed.
+
+## Making the Switch is Easier Than You Think: Complete pnpm Migration Guide
+
+Ready to experience those 70% faster installations? Here's how to get started without breaking anything.
+
+**For New Projects**
+
+Here's how to set up pnpm for new projects with Corepack:
+
+```bash
+# Set up Corepack (one-time setup)
+npm install -g corepack@latest
+corepack enable
+
+# Create new project with pnpm
+corepack install
+pnpm init
+pnpm add your-dependencies
+```
+
+**For Existing Projects**
+
+Here's how to migrate from npm to pnpm in three simple commands:
+
+```bash
+# Import your existing lockfile
+pnpm import
+
+# This converts package-lock.json to pnpm-lock.yaml automatically
+# Your dependencies stay exactly the same
+```
+
+**Team Adoption Strategy**:
+
+1. **Start small**: Try pnpm on your next new project
+2. **Configure enforcement**: Add `"packageManager": "pnpm@10.18.1"` to package.json
+3. **Gradual migration**: Convert existing projects one at a time using `pnpm import`
+
+The learning curve is minimal – if you know npm commands, you know pnpm commands. The performance gains start immediately.
+
+## Summary
+
+We've covered why pnpm should replace npm in your workflow:
+
+- **70% faster installations** with concrete time savings that add up across your team
+- **Fundamental architectural advantages** through symlinks and centralized storage
+- **Production-ready reliability** trusted by Vue.js, SvelteKit, and major frameworks
+- **Easy migration path** with `pnpm import` and Corepack for version management
+
+Among all node package manager alternatives, pnpm isn't just another package manager – it's a logical evolution that solves real problems while maintaining full compatibility with the Node.js ecosystem.
+
+**Try it on your next project – you'll never go back.**

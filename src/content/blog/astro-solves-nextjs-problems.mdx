@@ -13,11 +13,11 @@ readTime: 14 min
 import { Image } from 'astro:assets';
 import helpingPic from './next-helping-react-with-seo.jpg';
 
-### Introduction
+## Introduction
 
 In the ever-evolving world of web development, choosing the right framework can greatly influence not only the developer experience but also application performance and SEO. Two modern tools — Next.js and Astro — have emerged as popular choices for building fast, scalable, and efficient web applications. But while they may appear similar on the surface, they serve fundamentally different purposes and are built on distinct philosophies. In this post, we’ll explore the origins of these frameworks, how they differ in approach, and what use cases they’re best suited for.
 
-### The Origins: React and the Rise of Client-Side Interactivity
+## The Origins: React and the Rise of Client-Side Interactivity
 
 To understand Next.js and Astro, we need to start with React, the JavaScript library that changed how developers build user interfaces.
 
@@ -25,7 +25,7 @@ React was introduced by Facebook in 2013 to handle the increasing complexity of 
 
 One of React's defining traits was that it focused heavily on client-side rendering (CSR). In this model, the browser downloads a minimal HTML shell and then renders the full UI using JavaScript on the client side. This approach enabled highly dynamic and interactive applications—but came at a cost: slower initial load times and poor search engine discoverability, especially for content-heavy pages.
 
-#### Enter Next.js: Making React SEO-Friendly
+### Enter Next.js: Making React SEO-Friendly
 
 As React applications grew in popularity, so did the need to make them more performant and search engine–friendly. This gap led to the creation of Next.js, a framework built on top of React that aimed to solve its biggest pain points—particularly in regard to SEO and performance.
 
@@ -54,7 +54,7 @@ Next.js introduced powerful capabilities like:
 
 These techniques allow developers to continue writing React with JSX while also enabling better SEO, faster page loads, and improved user experience.
 
-#### React 19 and Server Components
+### React 19 and Server Components
 
 The evolution of rendering in React took another leap with the release of [React 19](https://react.dev/blog/2024/12/05/react-19#whats-new-in-react-19), which introduced a groundbreaking concept: [React Server Components (RSC)](https://react.dev/reference/rsc/server-components).
 
@@ -65,11 +65,11 @@ This concept splits components into two types:
 
 The goal of RSC is to improve performance by reducing the amount of JavaScript sent to the browser. By offloading more rendering work to the server, React apps can be more efficient while maintaining interactivity where needed.
 
-### The Pitfalls of React Server Components
+## The Pitfalls of React Server Components
 
 While React Server Components (RSC) aim to optimize performance and SEO, they come with unexpected complexity. In this section, we'll break down key challenges in RSC and compare how Astro approaches these same problems — often with simpler, more intuitive solutions.
 
-#### 1. Dual Rendering of Client Components
+### 1. Dual Rendering of Client Components
 
 React Server Components (RSC) promise better performance and SEO by offloading rendering to the server and reducing the amount of JavaScript sent to the browser. But in practice, this model introduces unexpected complexity — especially when it comes to client components.
 
@@ -87,7 +87,7 @@ It all comes down to hydration. React wants to keep the DOM structure consistent
 
 This creates a fundamental tension. A library originally built to run in the browser now requires nearly all UI — even “client-side” logic — to pass through the server. That’s a heavy mental model. In my view, client components should render only on the client, and developers should be able to opt into shared rendering explicitly, rather than having it imposed by default.
 
-#### How Does Astro Approach Hydration?
+### How Does Astro Approach Hydration?
 
 Astro components are rendered statically by default. Thanks to [Astro’s Island Architecture](https://docs.astro.build/en/concepts/islands/) if you need interactivity, you declare it using one of [hydration directives](https://docs.astro.build/en/reference/directives-reference/#client-directives):
 
@@ -104,7 +104,7 @@ From my observations, hydration mismatches can still occur — for example, if y
 
 I’ve written more about [Astro and challenges I faced using it — check it out](https://www.michalskorus.pl/blog/my-first-blog-post-on-astro-website#astro-islands) if you’d like a deeper dive.
 
-#### 2. The "use client" Directive and Component Boundaries
+### 2. The "use client" Directive and Component Boundaries
 
 React Server Components introduced a new dimension of complexity in how we structure component trees: execution context boundaries.
 
@@ -145,7 +145,7 @@ The tree is still valid because the outermost renderer is a server component, an
 
 This small allowance avoids the need to make your entire component tree client-rendered just to use context or interactivity in isolated areas. But let’s be honest — this behavior is far from obvious, especially without digging into the internals of how RSC evaluates component graphs.
 
-#### How Astro is handling client components?
+### How Astro is handling client components?
 
 Astro avoids these complexities entirely. Instead of mixing execution contexts within a single tree, it encourages a clean separation between server-rendered `.astro` components and interactive “islands” powered by frameworks like React, Vue, or Svelte.
 
@@ -159,7 +159,7 @@ Astro makes the rules simple:
 
 This removes the need to memorize boundary rules. You don’t have to ask “what runs where?” or “can I nest this component here?” You just know. That’s the kind of mental clarity that’s hard to put a price on.
 
-#### 3. Server Actions – New API, Old Problems?
+### 3. Server Actions – New API, Old Problems?
 
 With the arrival of React Server Components, a new concept was introduced: Server Actions. The idea is to simplify how client components interact with server logic — no more writing separate API endpoints, manually crafting `fetch` calls, or remembering HTTP methods and routes.
 
@@ -224,7 +224,7 @@ By using Server Actions, you’re tying your backend logic to the Next.js framew
 
 To be fair, Next.js still gives you the option to define traditional API Routes, which behave like regular HTTP endpoints — cleanly separated from the component layer. But with Server Actions taking the spotlight, it's easy to miss that flexibility still exists.
 
-#### How Astro Handles Server Communication
+### How Astro Handles Server Communication
 
 Astro pages can handle HTTP requests directly. This makes it possible to use `.astro` files not only for rendering HTML, but also for responding to GET or POST requests. However, this pattern is usually limited to simple use cases like form submissions or redirects.
 
@@ -240,7 +240,7 @@ Here’s the important part: just like in Next.js, Astro Actions are ultimately 
 
 In this regard, both Astro and Next.js make a similar tradeoff — simplifying the developer experience at the cost of stricter boundary control.
 
-#### My Take: We Need a Facade, Not Direct Backend Imports
+### My Take: We Need a Facade, Not Direct Backend Imports
 
 In my opinion, we’re missing one key element here: a clear separation between frontend and backend. We shouldn’t be importing backend logic directly into frontend components in a way that hides the fact it’s actually a real endpoint.
 
@@ -283,7 +283,7 @@ const { formAction } = contactFacade.post;
 
 Sure, this doesn’t solve the fact that the endpoint is still public unless explicitly secured — but at least it’s clear that it is an actual HTTP endpoint. We clearly define the facade, keeping business logic on the server, while allowing for easy imports into frontend components. This setup would also enable real-time form validation without the old limitations, using modern APIs like JSON.
 
-### Conclusion
+## Conclusion
 
 In this post, we’ve taken a closer look at two modern web frameworks — **Next.js** and **Astro** — and how they tackle the challenges of performance, SEO, hydration, and server/client boundaries.
 
