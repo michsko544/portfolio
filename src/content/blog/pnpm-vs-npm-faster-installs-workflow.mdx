@@ -10,9 +10,12 @@ tags: ['Package Managers', 'CI/CD', 'Frontend']
 readTime: 13 min
 ---
 
+import { Image } from 'astro:assets';
+import chartPic from './pnpm-vs-yarn-downloads-comparision.jpg';
+
 ## The Developer Reality Check
 
-Does your team have multiple similar projects where running `npm install` means it's coffee break time? Is your CI/CD pipeline generating costs and you're looking for ways to save money?
+Does your team have multiple similar projects where running `npm install` means it's coffee ☕️ break time? Is your CI/CD pipeline generating costs and you're looking for ways to save money?
 
 If you answered yes to either question, keep reading.
 
@@ -36,7 +39,7 @@ Let's put some numbers to those frustrations. Here's what the performance differ
 
 For CI build optimization, a team building a large application with 10 daily deployments across 3 environments (dev/staging/prod), that's 30 CI builds daily. With npm, you're spending 378 seconds (6.3 minutes) on package installation. With pnpm, that drops to 195 seconds (3.25 minutes) – saving over 3 minutes of compute time daily.
 
-Scale that to a month: npm uses 31.5 hours of CI time just for package installation, while pnpm uses only 16.25 hours. That's 15+ hours of compute savings monthly, which translates to real cost reductions.
+Scale that to a month: npm uses 189 minutes of CI time just for package installation, while pnpm uses only 97.5 minutes. That's 1.5+ hour of compute savings monthly and you can save even more if you [configure cache correctly in your pipeline](https://pnpm.io/continuous-integration).
 
 For developers, 9.2s vs 2.5s is the difference between losing your mental context and staying focused when you switch branches or pull updates.
 
@@ -55,26 +58,26 @@ If that's your reaction, you're not alone. Many developers dismiss pnpm as "just
 
 **Three Different Philosophies**:
 
-**npm**: Traditional flat node_modules structure. Simple, well-understood, but inefficient.
+**npm**: Traditional flat `node_modules` structure. Simple, well-understood, but inefficient.
 
-**Yarn Berry (PnP)**: Eliminates node_modules entirely, stores packages in zip files with runtime resolution via pnp.cjs. Extremely fast and space-efficient, but requires ecosystem adaptation.
+**Yarn Berry (PnP)**: Eliminates `node_modules` entirely, stores packages in zip files with runtime resolution via pnp.cjs. Extremely fast and space-efficient, but requires ecosystem adaptation.
 
-**pnpm**: Uses symlinks to create a centralized store while maintaining a real node_modules structure. Balances efficiency with full Node.js compatibility.
+**pnpm**: Uses symlinks to create a centralized store while maintaining a real `node_modules` structure. Balances efficiency with full Node.js compatibility.
 
 **Where pnpm Stands Out**:
 
 - **Full Node.js Compatibility**: Works with every tool without configuration or patches
 - **Transparent Debugging**: Dependencies are physical files, not hidden in zip archives
-- **Phantom Dependency Prevention**: Strict node_modules prevents accessing unlisted dependencies
+- **Phantom Dependency Prevention**: Strict `node_modules` prevents accessing unlisted dependencies
 - **Global Store Efficiency**: One copy of each package version across all projects
 - **Ecosystem Neutrality**: Doesn't require runtime hooks or ecosystem changes
 - **Conceptual Simplicity**: The symlink approach is intuitive – packages stored once, linked everywhere. Easy to understand and reason about.
 
-**The Trade-offs**: Yarn Berry can be faster in some scenarios and uses less disk space, but requires tools to support PnP mode and its zip-based approach can be complex to debug. pnpm sacrifices some theoretical efficiency for universal compatibility and conceptual clarity – you get most of the benefits without breaking existing workflows or mental models.
+**The Trade-offs**: Yarn Berry can be faster in some scenarios, but requires tools to support PnP mode and its zip-based approach can be complex to debug. pnpm sacrifices some theoretical efficiency for universal compatibility and conceptual clarity – you get most of the benefits without breaking existing workflows or mental models.
 
-## The Technology Behind the Magic: pnpm Symlinks Explained
+## The Technology Behind the Magic: pnpm Hard links & Symlinks Explained
 
-Here's how pnpm actually works under the hood, and why it changes everything about dependency management.
+Here's how pnpm actually works under the hood.
 
 **Understanding Symlinks and Hard Links**
 
@@ -143,20 +146,38 @@ Still worried about adopting a "newer" package manager? Major frameworks and too
 
 [Vue.js](https://vuejs.org/) development uses pnpm by default. [SvelteKit](https://svelte.dev/docs/kit/introduction) powers its build toolchain with pnpm. [Vite](https://vite.dev/), the fastest build tool in the ecosystem, uses pnpm for package management. Shopify's Hydrogen templates come with pnpm configuration out of the box.
 
-**Why They Chose pnpm**: These aren't experimental decisions. When performance, reliability, and developer experience matter most, teams consistently choose pnpm over alternatives.
-
-**Community Momentum** ([2024 State of JS survey](https://2024.stateofjs.com/en-US/libraries/monorepo_tools/)):
+**Community Momentum** - developers in the [2024 State of JS survey](https://2024.stateofjs.com/en-US/libraries/monorepo_tools/) chose pnpm as the best monorepo tool.
 
 - **93% satisfaction rate** among developers who tried pnpm
 - **42% already using it** in production
 - **85% awareness** in the developer community
 - **62% interest** from developers who haven't tried it yet
 
+The adoption trend is clear when looking at download statistics - pnpm's community is growing significantly faster than Yarn's, reflecting developers' preference for its balanced approach to dependency management (Source: [npm trends](https://npmtrends.com/pnpm-vs-yarn)).
+
+<figure>
+	<Image
+		src={chartPic}
+		alt="pnpm vs Yarn weekly downloads from the past year"
+		width="720"
+		widths={[720, 400]}
+		format="webp"
+		decoding="async"
+		loading="lazy"
+		fetchpriority="low"
+	/>
+	<figcaption>
+		<p>
+			<i>Weekly downloads from the past year show pnpm's steady growth compared to Yarn. </i>
+		</p>
+	</figcaption>
+</figure>
+
 That's not early-adopter territory – that's mainstream adoption.
 
 **Real-World Reliability**: I've been using pnpm in practically all commercial projects since 2022, and it has never let me down. Zero compatibility issues, consistent performance, and seamless team adoption across different project types.
 
-**Enterprise Features**: Beyond speed, pnpm includes catalogues for dependency version management and workspace configurations that make it suitable for large-scale projects requiring governance and consistency.
+**Monorepo Support**: Beyond being a package manager, pnpm is also a powerful monorepo tool that allows you to manage multiple related applications in a single repository with workspace configurations, shared dependencies, and efficient cross-project dependency management.
 
 The evidence is clear: pnpm has moved from "interesting alternative" to "production standard" for performance-conscious teams.
 
@@ -251,8 +272,8 @@ The learning curve is minimal – if you know npm commands, you know pnpm comman
 We've covered why pnpm should replace npm in your workflow:
 
 - **70% faster installations** with concrete time savings that add up across your team
-- **Fundamental architectural advantages** through symlinks and centralized storage
-- **Production-ready reliability** trusted by Vue.js, SvelteKit, and major frameworks
+- **Fundamental architectural advantages** through hard links, symlinks and centralized storage
+- **Built-in monorepo support** for managing multiple related applications with workspace configurations
 - **Easy migration path** with `pnpm import` and Corepack for version management
 
 Among all node package manager alternatives, pnpm isn't just another package manager – it's a logical evolution that solves real problems while maintaining full compatibility with the Node.js ecosystem.
