@@ -16,15 +16,19 @@ const technologies = [
   },
   {
     title: "STYLING",
-    items: ["SASS/SCSS", "TAILWINDCSS", "SHADCN/UI", "SHOPIFY POLARIS", "STYLED-COMPONENTS", "EMOTION", "MUI", "ANTDESIGN", "SEMANTIC UI"]
+    items: ["SASS/SCSS", "TAILWINDCSS", "SHADCN/UI", "BASE UI", "SHOPIFY POLARIS", "STYLED-COMPONENTS", "EMOTION", "MUI", "ANTDESIGN", "SEMANTIC UI"]
   },
   {
     title: "FRONTEND TOOLS",
-    items: ["VITE.JS", "WEBPACK", "ESLINT", "PRETTIER", "NVM", "TURBOPACK", "ROLLUP.JS", "GULP.JS", "ESBUILD", "BABEL", "SWC", "POSTCSS", "GRAPHQL-CODEGEN", "PNPM", "NPM", "NGROK"]
+    items: ["VITE.JS", "WEBPACK", "ESLINT", "PRETTIER", "BIOME", "OXLINT", "TURBOPACK", "ROLLUP.JS", "GULP.JS", "ESBUILD", "BABEL", "SWC", "POSTCSS", "GRAPHQL-CODEGEN", "PNPM", "NPM", "NGROK"]
+  },
+  {
+    title: "AI AGENTS",
+    items: ["CLAUDE CODE", "GEMINI", "CODEX", "OPENCODE", "CURSOR", "GITHUB COPILOT", "OPENCLAW"]
   },
   {
     title: "DEVOPS",
-    items: ["DOCKER", "GITLAB CI", "NGINX", "CADDY", "LET’S ENCRYPT", "GITHUB PAGES", "DIGITALOCEAN", "OVH", "VERCEL", "NETLIFY"]
+    items: ["DOCKER", "GITHUB ACTIONS", "GITLAB CI", "NGINX", "KUBERNETES", "CADDY", "LET’S ENCRYPT", "GITHUB PAGES", "DIGITALOCEAN", "OVH", "VERCEL", "NETLIFY"]
   },
   {
     title: "TESTING",
@@ -36,7 +40,7 @@ const technologies = [
   },
   {
     title: "OTHER",
-    items: ["GIT", "GITLAB", "GITHUB", "REST API", "GRAPHQL", "GITHUB COPILOT"]
+    items: ["GIT", "GITLAB", "GITHUB", "REST API", "GRAPHQL", "MISE"]
   },
 ]
 ---
@@ -45,7 +49,7 @@ const technologies = [
   <div class="contentSection">
     <div class="flex flex-col gap-12">
       <PageHeader title={pageTitle} chipText={chipText}>
-        <p slot="description">This is a quick overview of the technologies I, Michał Skorus — web developer, am proficient in. These skills empower me to build high-quality, scalable web applications tailored to diverse project needs.</p>
+        <p slot="description">In the <strong>era of AI</strong>, no technology is a challenge for me. Backed by solid <strong>engineering fundamentals</strong>, I pick the best tools for the job to build <strong>high-quality, scalable web apps</strong>. Here's a&nbsp;quick overview of the selected technologies I am proficient&nbsp;in.</p>
       </PageHeader>
       <TechnologyLists technologies={technologies}/>
     </div>

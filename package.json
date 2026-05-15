@@ -14,7 +14,8 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"lint": "eslint . --ignore-path .gitignore",
-		"prettier": "prettier --write ."
+		"prettier": "prettier --write .",
+		"typecheck": "astro check"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.7.0",

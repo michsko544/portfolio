@@ -2,10 +2,13 @@
 import PageHeader from "src/components/PageHeader.astro"
 import Table from "src/components/Table.astro"
 
-const chipText = "MORE ABOUT MICHAL SKORUS";
-const pageTitle = "What do I specialize in as a Web Developer?";
+const chipText = "MORE ABOUT ME";
+const pageTitle = "How do I work as an AI-first Developer?";
 const tableTitle = "FAVOURITE STACK & TOOLS";
 const tableItems = [{
+  label: "AI Agent",
+  value: "Claude Code"
+},{
   label: "Language",
   value: "TypeScript"
 },{
@@ -25,14 +28,14 @@ const tableItems = [{
   value: "PNPM",
 }, {
   label: "Git Repository",
-  value: "Gitlab"
+  value: "GitHub"
 }]
 ---
 
 <section id="about" class="contentSection">
   <div class="flex flex-col gap-12">
     <PageHeader title={pageTitle} chipText={chipText}>
-      <p slot="description">As a web developer, my favorite technology is React supported by TypeScript, but I’m comfortable working with a wide range of technologies to deliver the best solutions tailored to each project.</p>
+      <p slot="description">As an AI web developer, my favorite technology is React supported by TypeScript, but I’m comfortable working with a wide range of technologies to deliver the best solutions tailored to each project.</p>
     </PageHeader>
     <Table title={tableTitle} items={tableItems} />
   </div>
