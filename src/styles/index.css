@@ -355,6 +355,10 @@
 	}
 }
 
+#chat-widget-container {
+	z-index: 20 !important;
+}
+
 @media (min-width: 1024px) {
 	p {
 		font-size: 20px;

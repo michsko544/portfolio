@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import defaultOgImage from "src/assets/default-og-image.png";
 import { getImage } from "astro:assets";
 import PosthogAnalytics from "src/components/PosthogAnalytics.astro";
+import TextAppWidget from "src/components/TextAppWidget.astro";
 
 type Props = {
   title?: string;
@@ -107,6 +108,7 @@ const openGraph = {
     {import.meta.env.PROD && (
       <PosthogAnalytics />
     )}
+    <TextAppWidget />
     <HCaptcha />
 	</head>
 	<body>
