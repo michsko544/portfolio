@@ -26,9 +26,7 @@ const blogUrls = files
 export default defineConfig({
 	site: siteUrl,
 	vite: {
-		plugins: [
-			tailwind(),
-		],
+		plugins: [tailwind()],
 	},
 	integrations: [
 		react(),

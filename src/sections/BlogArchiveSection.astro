@@ -10,6 +10,7 @@ const pageTitle = "Blog";
 const chipText = "MY ARTICLES";
 
 const blogEntries = await getCollection('blog');
+console.log(blogEntries);
 
 const tags = new Set<string>();
 blogEntries.forEach((entry) => {
@@ -17,7 +18,7 @@ blogEntries.forEach((entry) => {
 });
 ---
 
-<section class="contentSection lg:pt-[calc(calc(100vh_-_420px)_/_2)]">
+<section class="contentSection lg:pt-[calc(calc(100vh-420px)/2)]">
   <div class="flex flex-col gap-6 w-full lg:gap-12 ">
     <PageHeader title={pageTitle} chipText={chipText} isHero={true}>
       <p slot="description">Welcome to blog of Michał Skorus – a web developer passionate about modern, responsive web development. Here I share my experiences, discuss programming challenges, and explore the latest in web technologies to help fellow developers and clients alike.</p>
@@ -36,7 +37,7 @@ blogEntries.forEach((entry) => {
       {blogEntries.toSorted((a, b) => a.data.publishDate < b.data.publishDate ? 1 : -1).map((entry) => (
         <div class="bg-secondary-alt rounded-[16px] p-3 h-full">
           <div class="flex flex-col gap-3 h-full">
-            <a href={`/blog/${entry.slug}`} class="rounded-[12px] overflow-hidden">
+            <a href={`/blog/${entry.id}`} class="rounded-[12px] overflow-hidden">
               <Image src={entry.data.cover} alt={entry.data.coverAlt} sizes={"100vw"}/>
             </a>
             <div class="flex flex-col flex-1">
@@ -45,7 +46,7 @@ blogEntries.forEach((entry) => {
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4.66667 18.3334C4.20833 18.3334 3.81611 18.1704 3.49 17.8442C3.16389 17.5181 3.00056 17.1256 3 16.6667V5.00008C3 4.54175 3.16333 4.14953 3.49 3.82341C3.81667 3.4973 4.20889 3.33397 4.66667 3.33341H5.5V1.66675H7.16667V3.33341H13.8333V1.66675H15.5V3.33341H16.3333C16.7917 3.33341 17.1842 3.49675 17.5108 3.82341C17.8375 4.15008 18.0006 4.5423 18 5.00008V16.6667C18 17.1251 17.8369 17.5176 17.5108 17.8442C17.1847 18.1709 16.7922 18.334 16.3333 18.3334H4.66667ZM4.66667 16.6667H16.3333V8.33341H4.66667V16.6667Z" fill="currentColor"/>
                 </svg>
-                <span class="text-[12px] leading-[1] text-primary">{format(entry.data.publishDate, "dd MMM yyyy")}</span>
+                <span class="text-[12px] leading-none text-primary">{format(entry.data.publishDate, "dd MMM yyyy")}</span>
               </time>
               <div class="flex flex-wrap gap-2 mt-5 mb-3">
                 {entry.data.tags.map((tag) => (
@@ -53,7 +54,7 @@ blogEntries.forEach((entry) => {
                 ))}
               </div>
               <div class="mt-auto pt-2">
-                <Link href={`/blog/${entry.slug}`} >LEARN MORE</Link>
+                <Link href={`/blog/${entry.id}`} >LEARN MORE</Link>
               </div>
             </div>
           </div>
