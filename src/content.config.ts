@@ -1,18 +1,18 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const blogCollection = defineCollection({
-	type: 'content',
+	loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
 			description: z.string(),
 			author: z.string(),
-			cover: image().refine(img => img.width >= 1080, {
-				message: 'Cover image must be at least 1080 pixels wide!',
-			}),
+			cover: image(),
 			coverAlt: z.string(),
 			coverAuthor: z.string().optional(),
-			publishDate: z.date(),
+			publishDate: z.coerce.date(),
 			tags: z.array(z.string()),
 			readTime: z.string().optional(),
 			draft: z.boolean().optional(),
