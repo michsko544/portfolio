@@ -2,20 +2,18 @@
 import { cn } from 'src/utils';
 
 type Props = {
-  text: string;
+  text?: string;
   variant?: 'normal' | 'outlined';
-  // eslint-disable-next-line no-undef
-  as?: keyof astroHTML.JSX.IntrinsicElements;
 }
 
-const { text = '', variant = 'normal', as = "span" } = Astro.props;
-const Component = as ?? "span";
+const { text = '', variant = 'normal' } = Astro.props;
 ---
 
-<Component class={cn(
-  "block uppercase font-sans text-[10px] leading-[1.2] pt-1 px-1.5 bg-secondary-alt w-fit rounded-md custom-transition",
-  "lg:px-2 lg:rounded-lg lg:text-[12px]",
-  variant==='outlined' && "outline-solid outline-1 outline-primary -outline-offset-1"
-)}>
-  {text}
-</Component>
+<span
+  class={cn(
+    "block uppercase font-sans text-[10px] leading-[1.2] pt-1 px-1.5 bg-secondary-alt w-fit rounded-md custom-transition",
+    "lg:px-2 lg:rounded-lg lg:text-[12px]",
+    variant==='outlined' && "outline-solid outline-1 outline-primary -outline-offset-1"
+  )}
+  set:html={text}
+/>
