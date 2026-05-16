@@ -21,7 +21,7 @@ const { index = "00", projectTitle="", year="", role="", chips=[], image, url="#
 
 <div class={cn(
   "w-full p-3 bg-secondary-alt rounded-2xl lg:p-8 custom-transtion",
-  "after:absolute after:content-[''] after:w-[80%] after:h-[1px] after:bg-border after:right-0 after:translate-y-[28px] last:after:hidden",
+  "after:absolute after:content-[''] after:w-[80%] after:h-px after:bg-border after:right-0 after:translate-y-[28px] last:after:hidden",
   "lg:after:translate-y-[96px] lg:after:w-1/2"
 )}>
     <div class="relative flex lg:gap-8">
@@ -37,7 +37,7 @@ const { index = "00", projectTitle="", year="", role="", chips=[], image, url="#
           decoding="async"
           loading="lazy"
           fetchpriority="low"
-          class="object-cover object-left-top w-full aspect-[45/32]"
+          class="object-cover object-top-left w-full aspect-45/32"
         />}
       </div>
       <div class="flex flex-col gap-6 items-end">

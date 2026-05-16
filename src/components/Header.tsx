@@ -77,7 +77,7 @@ function NavLink({ href, children, closeMenu }: { href: string; children: React.
 		<a
 			href={href}
 			onClick={onMenuClick}
-			className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded custom-transition"
+			className="block w-fit uppercase font-sans text-base leading-[22px] bg-secondary-alt px-2 pt-3 pb-1.5 rounded-sm custom-transition"
 		>
 			{children}
 		</a>
@@ -112,7 +112,7 @@ export default function Header() {
 					ref={ref}
 					className={cn(
 						'flex flex-col place-content-center',
-						'fixed w-1/2 h-[100dvh] px-3 bg-secondary border-r border-primary z-30 -translate-x-[101%] custom-transition',
+						'fixed w-1/2 h-dvh px-3 bg-secondary border-r border-primary z-30 translate-x-[-101%] custom-transition',
 						isMenuOpened && 'translate-x-0',
 						'lg:px-0 lg:translate-x-0 lg:h-screen lg:w-[30%]',
 					)}
