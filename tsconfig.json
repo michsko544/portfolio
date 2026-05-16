@@ -42,5 +42,6 @@
 		"useUnknownInCatchVariables": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true
-	}
+	},
+	"include": [".astro/types.d.ts", "src/**/*"]
 }

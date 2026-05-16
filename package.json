@@ -3,10 +3,9 @@
 	"type": "module",
 	"version": "2.0.0",
 	"engines": {
-		"node": "^20.0.0 || ^22.0.0",
-		"pnpm": "^8.9.0"
+		"node": "^24.0.0"
 	},
-	"packageManager": "pnpm@8.10.2",
+	"packageManager": "pnpm@11.1.2",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
@@ -18,28 +17,27 @@
 		"typecheck": "astro check"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.7.0",
-		"@astrojs/mdx": "^3.1.2",
-		"@astrojs/netlify": "^5.3.1",
+		"@astrojs/check": "^0.9.8",
+		"@astrojs/mdx": "^5.0.3",
+		"@astrojs/netlify": "^7.0.6",
 		"@astrojs/partytown": "^2.1.1",
-		"@astrojs/react": "^3.4.0",
-		"@astrojs/sitemap": "^3.1.6",
-		"@astrojs/tailwind": "^5.1.0",
+		"@astrojs/react": "^5.0.3",
+		"@astrojs/sitemap": "^3.7.2",
 		"@uidotdev/usehooks": "^2.4.1",
-		"astro": "^4.11.2",
+		"astro": "^6.1.6",
 		"clsx": "^2.1.1",
 		"date-fns": "^3.6.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"resend": "^3.3.0",
-		"sharp": "^0.33.4",
 		"tailwind-merge": "^2.3.0",
-		"tailwindcss": "^3.4.3",
+		"tailwindcss": "^4.2.2",
 		"toastify-js": "^1.12.0",
-		"typescript": "^5.4.5"
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"@astrojs/ts-plugin": "^1.8.0",
+		"@astrojs/ts-plugin": "^1.10.7",
+    "@tailwindcss/vite": "^4.2.2",
 		"@types/gtag.js": "^0.0.20",
 		"@types/toastify-js": "^1.12.3",
 		"@typescript-eslint/eslint-plugin": "^7.11.0",
@@ -51,6 +49,7 @@
 		"eslint-plugin-jsx-a11y": "^6.8.0",
 		"prettier": "^3.2.5",
 		"prettier-plugin-astro": "^0.14.0",
-		"schema-dts": "^1.1.2"
+		"sharp": "^0.34.5",
+		"schema-dts": "^1.1.5"
 	}
 }
