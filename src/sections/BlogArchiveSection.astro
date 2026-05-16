@@ -10,7 +10,6 @@ const pageTitle = "Blog";
 const chipText = "MY ARTICLES";
 
 const blogEntries = await getCollection('blog');
-console.log(blogEntries);
 
 const tags = new Set<string>();
 blogEntries.forEach((entry) => {

@@ -32,8 +32,9 @@ const { index = "00", projectTitle="", year="", role="", chips=[], image, url="#
         {image && <Image
           src={image}
           alt={`Michał Skorus Project - ${projectTitle}`}
-          widths={[360, 720 ,1440]}
-          format="webp"
+          widths={[360, 720, 1440]}
+          format="avif"
+          quality={60}
           decoding="async"
           loading="lazy"
           fetchpriority="low"
