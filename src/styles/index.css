@@ -73,7 +73,8 @@
 		--font-title: 'Konstant Grotesk';
 		--font-text: 'Inter';
 
-		--filter-code: brightness(0.7) contrast(2.5);
+		--filter-code: saturate(1.5) brightness(0.7) contrast(2);
+		--code-tint: color-mix(in srgb, var(--color-orange) 30%, transparent);
 	}
 
 	:root[data-theme-dark] {
@@ -180,6 +181,15 @@
 		font-weight: 500;
 		font-size: 16px;
 	}
+
+	:root:not([data-theme-dark]) pre:has(code) span[style] {
+		display: inline-block;
+		background-image: linear-gradient(var(--code-tint), var(--code-tint)), linear-gradient(currentColor, currentColor);
+		background-blend-mode: darken;
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
 }
 
 .custom-transition {
@@ -277,6 +287,8 @@
 	}
 
 	pre:has(code) {
+		position: relative;
+		isolation: isolate;
 		padding: 16px;
 		border-radius: 16px;
 		background-color: var(--color-bg-alt) !important;
@@ -284,6 +296,7 @@
 
 		.line {
 			filter: var(--filter-code);
+			transition: filter var(--transition-time);
 		}
 	}
 

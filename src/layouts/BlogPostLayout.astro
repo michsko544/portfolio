@@ -44,25 +44,25 @@ const cover = await getImage({src: frontmatter.cover, width: 1200, height: 630})
     <header>
       <div class="relative z-[-1] mx-3">
         <div class="rounded-[16px] overflow-hidden">
-          <Image src={frontmatter.cover} alt={frontmatter.coverAlt} loading="eager" fetchpriority="high" width={750}/>
+          <Image src={frontmatter.cover} alt={frontmatter.coverAlt} loading="eager" fetchpriority="high" width={750} format="avif" quality={60} />
         </div>
         {frontmatter.coverAuthor && <span class="text-[8px] leading-none font-sans origin-bottom-left rotate-90 absolute top-2 left-full text-nowrap lg:text-[10px]">PHOTO BY {frontmatter.coverAuthor.toUpperCase()}</span>}
       </div>
       <div class="py-6 px-4 bg-secondary-alt border border-border rounded-[16px] flex flex-col gap-4 items-center mt-[-36px] mb-12 mx-6 custom-transition lg:mx-16 lg:p-6">
         <ul class="flex items-center gap-1 w-fit">
-          <li class="text-[10px] leading-none text-primary lg:text-[12px] custom-transition"><a href="/">michalskorus.pl</a></li>
+          <li class="text-[10px] leading-none text-primary lg:text-[12px]! custom-transition"><a href="/">michalskorus.pl</a></li>
           <div class="w-[10px] h-[10px] shrink-0">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.3335 7.91659V2.08325L7.91683 4.99992L3.3335 7.91659Z" fill="currentColor"/>
             </svg>
           </div>
-          <li class="text-[10px] leading-none text-primary lg:text-[12px] custom-transition"><a href="/blog">blog</a></li>
+          <li class="text-[10px] leading-none text-primary lg:text-[12px]! custom-transition"><a href="/blog">blog</a></li>
           <div class="w-[10px] h-[10px] shrink-0">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.3335 7.91659V2.08325L7.91683 4.99992L3.3335 7.91659Z" fill="currentColor"/>
             </svg>
           </div>
-          <li class="text-[10px] leading-none text-primary opacity-[0.64] lg:text-[12px] custom-transition">post</li>
+          <li class="text-[10px] leading-none text-primary opacity-[0.64] lg:text-[12px]! custom-transition">post</li>
         </ul>
         <JsonLdBreadcrumbs items={[
           {name: "michalskorus.pl", url: "/"},
